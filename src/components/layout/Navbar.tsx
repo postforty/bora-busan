@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,10 +27,8 @@ export default function Navbar() {
           Bora Busan
         </Link>
         <div className="hidden md:flex items-center space-x-8">
-          <Link href="#" className="font-label-bold text-label-bold text-primary border-b-2 border-primary transition-colors duration-200">Destinations</Link>
-          <Link href="#" className="font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors duration-200">Pilgrimage</Link>
-          <Link href="#" className="font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors duration-200">Events</Link>
-          <Link href="#" className="font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors duration-200">About</Link>
+          <Link href="/blog" className={`font-label-bold text-label-bold transition-colors duration-200 ${pathname?.startsWith('/blog') ? 'text-primary border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Stories & Guides</Link>
+          <Link href="/#pilgrimage" className="font-label-bold text-label-bold text-on-surface-variant hover:text-primary transition-colors duration-200">Pilgrimage</Link>
         </div>
         <div className="flex items-center space-x-4">
           <button aria-label="Language" className="p-2 text-on-surface-variant hover:text-primary transition-colors">

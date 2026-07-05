@@ -12,7 +12,7 @@ export default function HeroSection() {
         <p className="font-body-lg text-body-lg max-w-2xl mx-auto mb-10 opacity-90">
           Your ultimate guide to the magic of Busan, curated for the global fandom community. Experience the locations your idols love.
         </p>
-        <Link href="#pilgrimage" className="inline-flex items-center px-10 py-4 primary-gradient rounded-full font-label-bold text-label-bold uppercase tracking-widest text-white pearl-blue-glow transition-all hover:scale-105 active:scale-95 shadow-lg">
+        <Link href="/blog" className="inline-flex items-center px-10 py-4 primary-gradient rounded-full font-label-bold text-label-bold uppercase tracking-widest text-white pearl-blue-glow transition-all hover:scale-105 active:scale-95 shadow-lg">
           Start Exploring
         </Link>
       </div>

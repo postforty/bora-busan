@@ -18,10 +18,8 @@ export default function Footer() {
         <div className="md:col-span-3 mb-8 md:mb-0">
           <h4 className="font-label-bold text-label-bold text-primary uppercase mb-6">Navigation</h4>
           <ul className="space-y-4">
-            <li><Link href="#" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">Destinations</Link></li>
-            <li><Link href="#" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">Pilgrimage Guide</Link></li>
-            <li><Link href="#" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">Events & Festivals</Link></li>
-            <li><Link href="#" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">About Bora Busan</Link></li>
+            <li><Link href="/blog" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">Stories & Guides</Link></li>
+            <li><Link href="/#pilgrimage" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">The Pilgrimage Route</Link></li>
           </ul>
         </div>
         <div className="md:col-span-4">

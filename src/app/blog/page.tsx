@@ -1,6 +1,7 @@
 import BlogHero from "@/components/blog/BlogHero";
 import BlogCard from "@/components/blog/BlogCard";
 import Pagination from "@/components/blog/Pagination";
+import { Suspense } from "react";
 
 const mockPosts = [
   {
@@ -72,6 +73,8 @@ const mockPosts = [
 ];
 
 export default function BlogPage() {
+  const totalPages = 10; // For demonstration purposes
+
   return (
     <div className="pt-32 pb-section-gap">
       <BlogHero />
@@ -82,7 +85,9 @@ export default function BlogPage() {
           ))}
         </div>
       </section>
-      <Pagination />
+      <Suspense fallback={null}>
+        <Pagination totalPages={totalPages} basePath="/blog" />
+      </Suspense>
     </div>
   );
 }

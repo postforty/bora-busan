@@ -31,7 +31,7 @@ export default function Footer() {
             <li><Link href="#" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">Contact Us</Link></li>
           </ul>
           <p className="font-label-sm text-label-sm text-on-surface-variant/60">
-            © 2024 Bora Busan. All rights reserved. <br />
+            © 2026 Bora Busan. All rights reserved. <br />
             Crafted with 💜 for the Fandom.
           </p>
         </div>

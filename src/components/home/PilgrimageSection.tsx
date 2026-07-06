@@ -42,7 +42,7 @@ export default async function PilgrimageSection() {
                   <h3 className="font-headline-sm text-headline-sm text-white mb-2">{post1.frontmatter.title}</h3>
                   <p className="font-body-md text-body-md text-white/80 max-w-md line-clamp-2">{post1.frontmatter.description}</p>
                 </div>
-                <div className="bg-white/20 backdrop-blur-md p-3 rounded-full text-white border border-white/20 group-hover:bg-primary transition-colors flex-shrink-0 ml-4">
+                <div className="bg-white/20 backdrop-blur-md w-12 h-12 flex items-center justify-center rounded-full text-white border border-white/20 group-hover:bg-primary transition-colors flex-shrink-0 ml-4">
                   <span className="material-symbols-outlined">arrow_forward</span>
                 </div>
               </div>

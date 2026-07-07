@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import Image from 'next/image';
 
+import ClientAdminControls from '@/components/admin/ClientAdminControls';
+
 export const runtime = 'edge';
 
 // Custom components to inject into MDX
@@ -18,7 +20,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const resolvedParams = await params;
   const { slug } = resolvedParams;
   const decodedSlug = decodeURIComponent(slug);
-  console.log(">> DEBUG SLUG:", { raw: slug, decoded: decodedSlug });
   
   const supabase = createClient();
   const { data: post, error } = await supabase
@@ -27,8 +28,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     .eq('slug', decodedSlug)
     .single();
 
-  console.log(">> DEBUG POST:", { postFound: !!post, error });
-
   if (error || !post) {
     notFound();
   }
@@ -36,9 +35,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <article className="pt-32 pb-section-gap">
       <header className="max-w-[1000px] mx-auto px-container-margin-mobile md:px-container-margin-desktop mb-12">
-        <Link href="/blog" className="inline-flex items-center text-primary hover:underline mb-8 font-label-bold transition-colors">
-          <span className="material-symbols-outlined mr-1">arrow_back</span> Back to Blog
-        </Link>
+        <div className="flex items-center justify-between mb-8">
+          <Link href="/blog" className="inline-flex items-center text-primary hover:underline font-label-bold transition-colors">
+            <span className="material-symbols-outlined mr-1">arrow_back</span> Back to Blog
+          </Link>
+          <ClientAdminControls slug={post.slug} />
+        </div>
         <div className="flex items-center gap-3 mb-6">
           <span className="px-4 py-1.5 rounded-full bg-primary/10 text-primary font-label-bold text-[12px] uppercase tracking-wider">
             {post.category}

@@ -3,7 +3,18 @@ import AdSlot from '@/components/monetization/AdSlot';
 import AffiliateButton from '@/components/monetization/AffiliateButton';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@supabase/supabase-js';
+
+export async function generateStaticParams() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+  const { data: posts } = await supabase.from('posts').select('slug');
+  return (posts || []).map((post) => ({
+    slug: post.slug,
+  }));
+}
 
 // Custom components to inject into MDX
 const components = {
@@ -15,7 +26,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const resolvedParams = await params;
   const { slug } = resolvedParams;
   
-  const supabase = await createClient();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
   const { data: post, error } = await supabase
     .from('posts')
     .select('*')

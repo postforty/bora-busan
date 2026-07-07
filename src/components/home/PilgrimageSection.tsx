@@ -1,15 +1,22 @@
 import Link from 'next/link';
-import { getAllPosts } from '@/lib/mdx';
+import { createClient } from '@supabase/supabase-js';
 
 export default async function PilgrimageSection() {
-  const posts = await getAllPosts();
-  const topPosts = posts.slice(0, 3); // Get latest 3 posts
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+  const { data: posts, error } = await supabase
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(3);
 
-  if (topPosts.length < 3) {
+  if (error || !posts || posts.length < 3) {
     return null; // For simplicity, require at least 3 posts for the masonry layout
   }
 
-  const [post1, post2, post3] = topPosts;
+  const [post1, post2, post3] = posts;
 
   return (
     <section className="py-section-gap bg-surface" id="pilgrimage">
@@ -32,15 +39,15 @@ export default async function PilgrimageSection() {
           {/* Main 8-col card */}
           <div className="md:col-span-8 group cursor-pointer">
             <Link href={`/blog/${post1.slug}`} className="block relative overflow-hidden rounded-2xl h-[400px] card-shadow">
-              <img alt={post1.frontmatter.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={post1.frontmatter.imageUrl} />
+              <img alt={post1.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={post1.image_url} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               <div className="absolute top-6 right-6">
-                <span className="px-4 py-1 bg-primary text-white font-label-bold text-label-bold rounded-full">{post1.frontmatter.category}</span>
+                <span className="px-4 py-1 bg-primary text-white font-label-bold text-label-bold rounded-full">{post1.category}</span>
               </div>
               <div className="absolute bottom-0 left-0 p-8 w-full flex justify-between items-end">
                 <div>
-                  <h3 className="font-headline-sm text-headline-sm text-white mb-2">{post1.frontmatter.title}</h3>
-                  <p className="font-body-md text-body-md text-white/80 max-w-md line-clamp-2">{post1.frontmatter.description}</p>
+                  <h3 className="font-headline-sm text-headline-sm text-white mb-2">{post1.title}</h3>
+                  <p className="font-body-md text-body-md text-white/80 max-w-md line-clamp-2">{post1.description}</p>
                 </div>
                 <div className="bg-white/20 backdrop-blur-md w-12 h-12 flex items-center justify-center rounded-full text-white border border-white/20 group-hover:bg-primary transition-colors flex-shrink-0 ml-4">
                   <span className="material-symbols-outlined">arrow_forward</span>
@@ -52,14 +59,14 @@ export default async function PilgrimageSection() {
           {/* 4-col card */}
           <div className="md:col-span-4 group cursor-pointer">
             <Link href={`/blog/${post2.slug}`} className="block relative overflow-hidden rounded-2xl h-[400px] card-shadow">
-              <img alt={post2.frontmatter.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={post2.frontmatter.imageUrl} />
+              <img alt={post2.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={post2.image_url} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               <div className="absolute top-6 right-6">
-                <span className="px-4 py-1 bg-secondary text-white font-label-bold text-label-bold rounded-full">{post2.frontmatter.category}</span>
+                <span className="px-4 py-1 bg-secondary text-white font-label-bold text-label-bold rounded-full">{post2.category}</span>
               </div>
               <div className="absolute bottom-0 left-0 p-8 w-full">
-                <h3 className="font-headline-sm text-headline-sm text-white mb-2">{post2.frontmatter.title}</h3>
-                <p className="font-body-md text-body-md text-white/80 line-clamp-2">{post2.frontmatter.description}</p>
+                <h3 className="font-headline-sm text-headline-sm text-white mb-2">{post2.title}</h3>
+                <p className="font-body-md text-body-md text-white/80 line-clamp-2">{post2.description}</p>
                 <div className="mt-4 inline-flex items-center text-secondary-fixed font-label-bold text-label-bold">
                   View Details <span className="material-symbols-outlined ml-2 text-sm">open_in_new</span>
                 </div>
@@ -70,15 +77,15 @@ export default async function PilgrimageSection() {
           {/* 12-col card */}
           <div className="md:col-span-12 group cursor-pointer">
             <Link href={`/blog/${post3.slug}`} className="block relative overflow-hidden rounded-2xl h-[300px] md:h-[350px] card-shadow">
-              <img alt={post3.frontmatter.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={post3.frontmatter.imageUrl} />
+              <img alt={post3.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={post3.image_url} />
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent"></div>
               <div className="absolute top-6 right-6">
-                <span className="px-4 py-1 bg-tertiary text-white font-label-bold text-label-bold rounded-full">{post3.frontmatter.category}</span>
+                <span className="px-4 py-1 bg-tertiary text-white font-label-bold text-label-bold rounded-full">{post3.category}</span>
               </div>
               <div className="absolute inset-0 flex items-center p-12">
                 <div className="max-w-lg">
-                  <h3 className="font-headline-md text-headline-md text-white mb-4">{post3.frontmatter.title}</h3>
-                  <p className="font-body-lg text-body-lg text-white/90 mb-6 line-clamp-2">{post3.frontmatter.description}</p>
+                  <h3 className="font-headline-md text-headline-md text-white mb-4">{post3.title}</h3>
+                  <p className="font-body-lg text-body-lg text-white/90 mb-6 line-clamp-2">{post3.description}</p>
                   <button className="flex items-center space-x-3 bg-white text-primary px-6 py-2 rounded-full font-label-bold text-label-bold group-hover:bg-primary-fixed transition-colors">
                     <span>Discover the Magic</span>
                     <span className="material-symbols-outlined">play_circle</span>

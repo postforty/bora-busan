@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { createClient } from '@supabase/supabase-js';
 
 export default async function PilgrimageSection() {
@@ -39,7 +40,7 @@ export default async function PilgrimageSection() {
           {/* Main 8-col card */}
           <div className="md:col-span-8 group cursor-pointer">
             <Link href={`/blog/${post1.slug}`} className="block relative overflow-hidden rounded-2xl h-[400px] card-shadow">
-              <img alt={post1.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={post1.image_url} />
+              <Image alt={post1.title} className="object-cover transition-transform duration-700 group-hover:scale-110" src={post1.image_url} fill sizes="(max-width: 768px) 100vw, 66vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               <div className="absolute top-6 right-6">
                 <span className="px-4 py-1 bg-primary text-white font-label-bold text-label-bold rounded-full">{post1.category}</span>
@@ -59,7 +60,7 @@ export default async function PilgrimageSection() {
           {/* 4-col card */}
           <div className="md:col-span-4 group cursor-pointer">
             <Link href={`/blog/${post2.slug}`} className="block relative overflow-hidden rounded-2xl h-[400px] card-shadow">
-              <img alt={post2.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={post2.image_url} />
+              <Image alt={post2.title} className="object-cover transition-transform duration-700 group-hover:scale-110" src={post2.image_url} fill sizes="(max-width: 768px) 100vw, 33vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               <div className="absolute top-6 right-6">
                 <span className="px-4 py-1 bg-secondary text-white font-label-bold text-label-bold rounded-full">{post2.category}</span>
@@ -77,7 +78,7 @@ export default async function PilgrimageSection() {
           {/* 12-col card */}
           <div className="md:col-span-12 group cursor-pointer">
             <Link href={`/blog/${post3.slug}`} className="block relative overflow-hidden rounded-2xl h-[300px] md:h-[350px] card-shadow">
-              <img alt={post3.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={post3.image_url} />
+              <Image alt={post3.title} className="object-cover transition-transform duration-700 group-hover:scale-105" src={post3.image_url} fill sizes="100vw" />
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent"></div>
               <div className="absolute top-6 right-6">
                 <span className="px-4 py-1 bg-tertiary text-white font-label-bold text-label-bold rounded-full">{post3.category}</span>

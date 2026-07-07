@@ -57,7 +57,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </p>
         {post.image_url && (
           <div className="relative w-full aspect-[21/9] rounded-2xl overflow-hidden shadow-lg mb-12">
-            <Image src={post.image_url} alt={post.title} fill className="object-cover" />
+            <Image src={post.image_url} alt={post.title} fill className="object-cover" priority />
           </div>
         )}
       </header>

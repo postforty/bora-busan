@@ -78,7 +78,7 @@ export default async function PilgrimageSection() {
           {/* 12-col card */}
           <div className="md:col-span-12 group cursor-pointer">
             <Link href={`/blog/${post3.slug}`} className="block relative overflow-hidden rounded-2xl h-[300px] md:h-[350px] card-shadow">
-              <Image alt={post3.title} className="object-cover transition-transform duration-700 group-hover:scale-105" src={post3.image_url} fill sizes="100vw" />
+              <Image alt={post3.title} className="object-cover transition-transform duration-700 group-hover:scale-105" src={post3.image_url} fill sizes="(max-width: 768px) 100vw, 1280px" />
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent"></div>
               <div className="absolute top-6 right-6">
                 <span className="px-4 py-1 bg-tertiary text-white font-label-bold text-label-bold rounded-full">{post3.category}</span>

@@ -6,13 +6,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import Image from 'next/image';
 
-export async function generateStaticParams() {
-  const supabase = createClient();
-  const { data: posts } = await supabase.from('posts').select('slug');
-  return (posts || []).map((post) => ({
-    slug: post.slug,
-  }));
-}
+export const runtime = 'edge';
 
 // Custom components to inject into MDX
 const components = {
@@ -23,13 +17,17 @@ const components = {
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const { slug } = resolvedParams;
+  const decodedSlug = decodeURIComponent(slug);
+  console.log(">> DEBUG SLUG:", { raw: slug, decoded: decodedSlug });
   
   const supabase = createClient();
   const { data: post, error } = await supabase
     .from('posts')
     .select('*')
-    .eq('slug', slug)
+    .eq('slug', decodedSlug)
     .single();
+
+  console.log(">> DEBUG POST:", { postFound: !!post, error });
 
   if (error || !post) {
     notFound();
@@ -57,7 +55,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </p>
         {post.image_url && (
           <div className="relative w-full aspect-[21/9] rounded-2xl overflow-hidden shadow-lg mb-12">
-            <Image src={post.image_url} alt={post.title} fill className="object-cover" priority />
+            <Image src={post.image_url} alt={post.title} fill sizes="100vw" className="object-cover" priority />
           </div>
         )}
       </header>

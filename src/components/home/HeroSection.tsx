@@ -8,6 +8,7 @@ export default function HeroSection() {
         src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5Y9xlB6GaAz6x3Mst-K3YRj3mBdGFqy54jY5j-Mq7OdFYyTjOYfkY4YwtxKnAcOCIlmw_1xtaCv1D6FVTY4bEonds_rf5v4KPS3ww8TlC29lCKPPrqplyPiwHZXTgG6tnRhZKyI1rbSuaUKSzWDoOBr641Ooa5q7ULkyNBrGEvKqsYcxRiyWpFEBRL3mtZiKuT93_DH3tAqOSlXb77d1RTk8FKMVwEUTkdjl4YC-aPkGmEY3aEAjSv6KfknQcAQqKfdNps6s50co" 
         alt="Bora Busan Hero" 
         fill 
+        sizes="100vw"
         className="object-cover" 
         priority
       />

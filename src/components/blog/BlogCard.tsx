@@ -40,6 +40,7 @@ export default function BlogCard({
           src={imageUrl}
           alt={title}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105" 
         />
         <div className={`absolute top-4 right-4 ${badgeBgClass} px-3 py-1 rounded-full`}>

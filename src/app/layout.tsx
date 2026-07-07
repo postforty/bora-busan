@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import ToastProvider from "@/components/providers/ToastProvider";
 
 export const metadata: Metadata = {
   title: "Bora Busan | The Ultimate K-Pop Fan's Guide",
@@ -23,6 +24,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <ToastProvider />
       </body>
     </html>
   );

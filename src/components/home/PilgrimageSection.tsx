@@ -20,7 +20,7 @@ export default async function PilgrimageSection() {
   const [post1, post2, post3] = posts;
 
   return (
-    <section className="py-section-gap bg-surface" id="pilgrimage">
+    <section className="py-section-gap bg-surface scroll-mt-16" id="pilgrimage">
       <div className="max-w-[1280px] mx-auto px-container-margin-mobile md:px-container-margin-desktop">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div className="max-w-xl">
@@ -56,7 +56,7 @@ export default async function PilgrimageSection() {
               </div>
             </Link>
           </div>
-          
+
           {/* 4-col card */}
           <div className="md:col-span-4 group cursor-pointer">
             <Link href={`/blog/${post2.slug}`} className="block relative overflow-hidden rounded-2xl h-[400px] card-shadow">
@@ -74,7 +74,7 @@ export default async function PilgrimageSection() {
               </div>
             </Link>
           </div>
-          
+
           {/* 12-col card */}
           <div className="md:col-span-12 group cursor-pointer">
             <Link href={`/blog/${post3.slug}`} className="block relative overflow-hidden rounded-2xl h-[300px] md:h-[350px] card-shadow">

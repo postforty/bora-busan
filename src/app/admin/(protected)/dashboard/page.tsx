@@ -36,7 +36,7 @@ export default function AdminDashboardPage() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-5xl">
+    <div className="container mx-auto px-4 pt-32 pb-12 max-w-5xl">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-headline-md text-on-surface">Admin Dashboard</h1>
         <Link 

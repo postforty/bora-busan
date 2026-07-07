@@ -87,7 +87,7 @@ export default function AdminWritePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-4xl">
+    <div className="container mx-auto px-4 pt-32 pb-12 max-w-4xl">
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 bg-white shadow-sm rounded-2xl p-8 border border-outline-variant/30">
         <h1 className="text-headline-md text-on-surface mb-4">Write New Post</h1>
         

@@ -3,13 +3,11 @@ import AdSlot from '@/components/monetization/AdSlot';
 import AffiliateButton from '@/components/monetization/AffiliateButton';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@/lib/supabase/client';
+import Image from 'next/image';
 
 export async function generateStaticParams() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const supabase = createClient();
   const { data: posts } = await supabase.from('posts').select('slug');
   return (posts || []).map((post) => ({
     slug: post.slug,
@@ -26,10 +24,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const resolvedParams = await params;
   const { slug } = resolvedParams;
   
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const supabase = createClient();
   const { data: post, error } = await supabase
     .from('posts')
     .select('*')
@@ -62,7 +57,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </p>
         {post.image_url && (
           <div className="relative w-full aspect-[21/9] rounded-2xl overflow-hidden shadow-lg mb-12">
-            <img src={post.image_url} alt={post.title} className="w-full h-full object-cover" />
+            <Image src={post.image_url} alt={post.title} fill className="object-cover" />
           </div>
         )}
       </header>

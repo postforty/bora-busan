@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface BlogCardProps {
   title: string;
@@ -35,11 +36,11 @@ export default function BlogCard({
   return (
     <article className="group bg-surface-container-lowest rounded-2xl overflow-hidden editorial-card-shadow flex flex-col transition-all duration-300 hover:-translate-y-2">
       <div className="relative h-64 overflow-hidden">
-        {/* Support both direct images or CSS backgrounds as seen in original HTML */}
-        <div 
-          className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" 
-          style={{backgroundImage: `url('${imageUrl}')`}}
-          title={title}
+        <Image 
+          src={imageUrl}
+          alt={title}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105" 
         />
         <div className={`absolute top-4 right-4 ${badgeBgClass} px-3 py-1 rounded-full`}>
           <span className={`${badgeTextClass} font-label-bold text-label-sm uppercase tracking-wider`}>{category}</span>

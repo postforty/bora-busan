@@ -2,13 +2,9 @@ import BlogHero from "@/components/blog/BlogHero";
 import BlogCard from "@/components/blog/BlogCard";
 import Pagination from "@/components/blog/Pagination";
 import { Suspense } from "react";
-import { createClient } from "@supabase/supabase-js";
-
+import { createClient } from "@/lib/supabase/client";
 export default async function BlogPage() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const supabase = createClient();
   const { data: posts, error } = await supabase
     .from("posts")
     .select("*")
@@ -28,7 +24,6 @@ export default async function BlogPage() {
           {posts?.map((post) => (
             <BlogCard 
               key={post.id} 
-              id={post.id}
               title={post.title}
               description={post.description}
               date={new Date(post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}

@@ -1,8 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 export default function Footer() {
+  const t = useTranslations('Footer');
+
   const handleShare = async (e: React.MouseEvent) => {
     e.preventDefault();
     const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
@@ -16,14 +19,14 @@ export default function Footer() {
           url: currentUrl,
         });
       } catch (err) {
-        console.error("공유하기 실패:", err);
+        console.error(`${t('share_failed')} ${err}`);
       }
     } else {
       try {
         await navigator.clipboard.writeText(currentUrl);
-        alert("링크가 클립보드에 복사되었습니다.");
+        alert(t('copy_success'));
       } catch (err) {
-        console.error("클립보드 복사 실패:", err);
+        console.error(`${t('copy_failed')} ${err}`);
       }
     }
   };
@@ -34,7 +37,7 @@ export default function Footer() {
         <div className="md:col-span-5 mb-10 md:mb-0">
           <Link href="/" className="inline-block font-display-lg text-headline-md font-extrabold text-primary dark:text-inverse-primary tracking-tighter mb-6">Bora Busan</Link>
           <p className="font-body-md text-body-md text-on-surface-variant max-w-sm mb-8">
-            Curating premium experiences for the global K-culture community. Discover the soul of Busan through our fan-focused lens.
+            {t('description')}
           </p>
           <div className="flex space-x-6">
             <button onClick={handleShare} className="cursor-pointer text-on-surface-variant hover:text-primary transition-colors" aria-label="Share">
@@ -49,23 +52,23 @@ export default function Footer() {
           </div>
         </div>
         <div className="md:col-span-3 mb-8 md:mb-0">
-          <h4 className="font-label-bold text-label-bold text-primary uppercase mb-6">Navigation</h4>
+          <h4 className="font-label-bold text-label-bold text-primary uppercase mb-6">{t('navigation')}</h4>
           <ul className="space-y-4">
-            <li><Link href="/blog" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">Stories & Guides</Link></li>
-            <li><Link href="/#pilgrimage" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">The Pilgrimage Route</Link></li>
+            <li><Link href="/blog" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">{t('stories')}</Link></li>
+            <li><Link href="/#pilgrimage" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">{t('pilgrimage')}</Link></li>
           </ul>
         </div>
         <div className="md:col-span-4">
-          <h4 className="font-label-bold text-label-bold text-primary uppercase mb-6">Legal & Contact</h4>
+          <h4 className="font-label-bold text-label-bold text-primary uppercase mb-6">{t('legal_contact')}</h4>
           <ul className="space-y-4 mb-8">
-            <li><Link href="/privacy" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">Privacy Policy</Link></li>
-            <li><Link href="/terms" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">Terms of Service</Link></li>
-            <li><Link href="/cookies" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">Cookie Settings</Link></li>
-            <li><Link href="/contact" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">Contact Us</Link></li>
+            <li><Link href="/privacy" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">{t('privacy')}</Link></li>
+            <li><Link href="/terms" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">{t('terms')}</Link></li>
+            <li><Link href="/cookies" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">{t('cookies')}</Link></li>
+            <li><Link href="/contact" className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline transition-all">{t('contact')}</Link></li>
           </ul>
           <p className="font-label-sm text-label-sm text-on-surface-variant/60">
-            © 2026 Bora Busan. All rights reserved. <br />
-            Crafted with 💜 for the Fandom.
+            {t('copyright')} <br />
+            {t('crafted')}
           </p>
         </div>
       </div>

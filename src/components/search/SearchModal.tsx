@@ -21,6 +21,7 @@ interface Post {
 
 export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [results, setResults] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -28,6 +29,27 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const supabase = useMemo(() => createClient(), []);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("recentSearches");
+      if (saved) {
+        setRecentSearches(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.error("Failed to load recent searches", e);
+    }
+  }, []);
+
+  const saveRecentSearch = (term: string) => {
+    const trimmed = term.trim();
+    if (!trimmed) return;
+    setRecentSearches(prev => {
+      const newSearches = [trimmed, ...prev.filter((t) => t !== trimmed)].slice(0, 10);
+      localStorage.setItem("recentSearches", JSON.stringify(newSearches));
+      return newSearches;
+    });
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -112,6 +134,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               placeholder="게시글 검색..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && searchTerm.trim()) {
+                  saveRecentSearch(searchTerm.trim());
+                }
+              }}
               className="flex-1 bg-transparent border-none outline-none text-on-surface placeholder:text-on-surface-variant font-body-lg"
             />
             {searchTerm && (
@@ -143,6 +170,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                   <button
                     key={post.id}
                     onClick={() => {
+                      saveRecentSearch(debouncedSearchTerm);
                       router.push(`/blog/${post.slug}`);
                       onClose();
                     }}
@@ -182,12 +210,34 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               </div>
             ) : (
               <div className="py-8 px-4">
-                <p className="text-sm font-label-md text-on-surface-variant mb-3 px-2">최근 검색어</p>
+                <div className="flex items-center justify-between mb-3 px-2">
+                  <p className="text-sm font-label-md text-on-surface-variant">최근 검색어</p>
+                  {recentSearches.length > 0 && (
+                    <button 
+                      onClick={() => {
+                        setRecentSearches([]);
+                        localStorage.removeItem("recentSearches");
+                      }}
+                      className="text-xs font-label-md text-on-surface-variant hover:text-primary transition-colors"
+                    >
+                      전체 삭제
+                    </button>
+                  )}
+                </div>
                 <div className="flex flex-wrap gap-2 px-2">
-                  {/* Mock recent searches for UI completeness */}
-                  <button className="px-3 py-1.5 rounded-full bg-surface-variant/50 text-sm hover:bg-surface-variant transition-colors" onClick={() => setSearchTerm("부산")}>부산</button>
-                  <button className="px-3 py-1.5 rounded-full bg-surface-variant/50 text-sm hover:bg-surface-variant transition-colors" onClick={() => setSearchTerm("맛집")}>맛집</button>
-                  <button className="px-3 py-1.5 rounded-full bg-surface-variant/50 text-sm hover:bg-surface-variant transition-colors" onClick={() => setSearchTerm("여행")}>여행</button>
+                  {recentSearches.length > 0 ? (
+                    recentSearches.map((term, index) => (
+                      <button 
+                        key={index}
+                        className="px-3 py-1.5 rounded-full bg-surface-variant/50 text-sm hover:bg-surface-variant transition-colors" 
+                        onClick={() => setSearchTerm(term)}
+                      >
+                        {term}
+                      </button>
+                    ))
+                  ) : (
+                    <p className="text-sm text-on-surface-variant/50">최근 검색어 내역이 없습니다.</p>
+                  )}
                 </div>
               </div>
             )}

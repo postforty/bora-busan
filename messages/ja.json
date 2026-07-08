@@ -1,0 +1,62 @@
+{
+  "Navbar": {
+    "stories": "ストーリー＆ガイド",
+    "pilgrimage": "聖地巡礼",
+    "language": "言語",
+    "search": "検索"
+  },
+  "Pilgrimage": {
+    "fan_favorites": "ファンのお気に入り",
+    "title": "聖地巡礼コース",
+    "description": "世界中のファンにとって特別な思い出となった釜山の名所を厳選しました。",
+    "view_all": "すべてのストーリーを見る",
+    "view_details": "詳細を見る",
+    "discover": "魔法のような瞬間を見つける"
+  },
+  "Footer": {
+    "share_failed": "共有に失敗しました:",
+    "copy_success": "リンクがクリップボードにコピーされました。",
+    "copy_failed": "クリップボードのコピーに失敗しました:",
+    "description": "グローバルなKカルチャーコミュニティのためのプレミアムな体験。ファンの視点から釜山の魂を発見してください。",
+    "navigation": "ナビゲーション",
+    "stories": "ストーリー＆ガイド",
+    "pilgrimage": "聖地巡礼コース",
+    "legal_contact": "法的情報と連絡先",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "cookies": "Cookie設定",
+    "contact": "お問い合わせ",
+    "copyright": "© 2026 Bora Busan. 無断転載を禁じます。",
+    "crafted": "ファンダムのために💜を込めて制作されました。"
+  },
+  "Hero": {
+    "title": "<purple>紫</purple>の都市を探索する",
+    "description": "グローバルファンダムコミュニティのためにキュレーションされた、釜山の魔法への究極のガイド。アイドルが愛する場所を体験してください。",
+    "cta": "探索を始める"
+  },
+  "Privacy": {
+    "title": "プライバシーポリシー",
+    "last_updated": "最終更新日:",
+    "description": "プライバシーポリシーは現在作成中であり、まもなく更新されます。Bora Busanは、お客様の個人情報とプライバシーの権利を保護することをお約束します。"
+  },
+  "Terms": {
+    "title": "利用規約",
+    "last_updated": "最終更新日:",
+    "description": "利用規約は現在作成中であり、まもなく更新されます。Bora Busanを利用することにより、コミュニティのガイドラインとルールを遵守することに同意したことになります。"
+  },
+  "Cookies": {
+    "title": "Cookie設定",
+    "last_updated": "最終更新日:",
+    "description": "当社のCookieポリシーと設定センターは現在開発中です。Bora Busanは、サイトの利便性を向上させるためにCookieを使用しています。"
+  },
+  "Contact": {
+    "title": "お問い合わせ",
+    "subtitle": "ご連絡をお待ちしております！",
+    "description": "公式の連絡窓口は現在準備中です。それまでは、お問い合わせは運営チームまでお願いいたします。",
+    "general": "一般的なお問い合わせ"
+  },
+  "BlogHero": {
+    "title": "ストーリー＆ガイド",
+    "description": "K-POPの聖地巡礼地、海岸の文化、そして現代の旅行者のためにキュレーションされた隠れた地元の名所を通して、釜山の活気に満ちたリズムを探索してください。"
+  }
+}

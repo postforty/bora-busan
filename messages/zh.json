@@ -1,0 +1,62 @@
+{
+  "Navbar": {
+    "stories": "故事与指南",
+    "pilgrimage": "圣地巡礼",
+    "language": "语言",
+    "search": "搜索"
+  },
+  "Pilgrimage": {
+    "fan_favorites": "粉丝最爱",
+    "title": "圣地巡礼路线",
+    "description": "精选釜山名胜，全世界粉丝的共同回忆。",
+    "view_all": "查看所有故事",
+    "view_details": "查看详情",
+    "discover": "发现神奇时刻"
+  },
+  "Footer": {
+    "share_failed": "分享失败:",
+    "copy_success": "链接已复制到剪贴板。",
+    "copy_failed": "复制到剪贴板失败:",
+    "description": "为全球K文化社区提供优质体验。通过粉丝的视角发现釜山的灵魂。",
+    "navigation": "导航",
+    "stories": "故事与指南",
+    "pilgrimage": "圣地巡礼路线",
+    "legal_contact": "法律与联系方式",
+    "privacy": "隐私政策",
+    "terms": "服务条款",
+    "cookies": "Cookie 设置",
+    "contact": "联系我们",
+    "copyright": "© 2026 Bora Busan. 保留所有权利。",
+    "crafted": "为粉丝用 💜 制作。"
+  },
+  "Hero": {
+    "title": "探索<purple>紫色</purple>之城",
+    "description": "为全球粉丝社区精心策划的釜山魅力终极指南。体验您的偶像喜爱的地点。",
+    "cta": "开始探索"
+  },
+  "Privacy": {
+    "title": "隐私政策",
+    "last_updated": "最后更新:",
+    "description": "隐私政策内容目前正在起草中，将很快更新。Bora Busan 致力于保护您的个人信息和隐私权。"
+  },
+  "Terms": {
+    "title": "服务条款",
+    "last_updated": "最后更新:",
+    "description": "服务条款目前正在起草中，将很快更新。使用 Bora Busan 即表示您同意遵守我们的社区准则和规则。"
+  },
+  "Cookies": {
+    "title": "Cookie 设置",
+    "last_updated": "最后更新:",
+    "description": "我们的 Cookie 政策和首选项中心目前正在开发中。Bora Busan 使用 Cookie 来改善您在我们网站上的体验。"
+  },
+  "Contact": {
+    "title": "联系我们",
+    "subtitle": "我们很高兴收到您的来信！",
+    "description": "我们的官方联系渠道目前正在建立中。在此期间，如有任何疑问，请联系我们的管理团队。",
+    "general": "一般查询"
+  },
+  "BlogHero": {
+    "title": "故事与指南",
+    "description": "通过K-Pop圣地巡礼、沿海文化以及为现代旅行者精心策划的隐藏当地瑰宝，探索釜山充满活力的节奏。"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "Navbar": {
+    "stories": "Stories & Guides",
+    "pilgrimage": "Pilgrimage",
+    "language": "Language",
+    "search": "Search"
+  },
+  "Pilgrimage": {
+    "fan_favorites": "Fan Favorites",
+    "title": "The Pilgrimage Route",
+    "description": "Curated spots across Busan where moments became memories for fans worldwide.",
+    "view_all": "View all stories",
+    "view_details": "View Details",
+    "discover": "Discover the Magic"
+  },
+  "Footer": {
+    "share_failed": "Failed to share:",
+    "copy_success": "Link copied to clipboard.",
+    "copy_failed": "Failed to copy to clipboard:",
+    "description": "Curating premium experiences for the global K-culture community. Discover the soul of Busan through our fan-focused lens.",
+    "navigation": "Navigation",
+    "stories": "Stories & Guides",
+    "pilgrimage": "The Pilgrimage Route",
+    "legal_contact": "Legal & Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "contact": "Contact Us",
+    "copyright": "© 2026 Bora Busan. All rights reserved.",
+    "crafted": "Crafted with 💜 for the Fandom."
+  },
+  "Hero": {
+    "title": "Explore the <purple>Purple</purple> City",
+    "description": "Your ultimate guide to the magic of Busan, curated for the global fandom community. Experience the locations your idols love.",
+    "cta": "Start Exploring"
+  },
+  "Privacy": {
+    "title": "Privacy Policy",
+    "last_updated": "Last updated:",
+    "description": "The privacy policy content is currently being drafted and will be updated soon. Bora Busan is committed to protecting your personal information and your right to privacy."
+  },
+  "Terms": {
+    "title": "Terms of Service",
+    "last_updated": "Last updated:",
+    "description": "The terms of service are currently being drafted and will be updated soon. By using Bora Busan, you agree to comply with our community guidelines and rules."
+  },
+  "Cookies": {
+    "title": "Cookie Settings",
+    "last_updated": "Last updated:",
+    "description": "Our cookie policy and preferences center are currently under development. Bora Busan uses cookies to improve your experience on our site."
+  },
+  "Contact": {
+    "title": "Contact Us",
+    "subtitle": "We would love to hear from you!",
+    "description": "Our official contact channels are currently being set up. In the meantime, please reach out to our administration team for any inquiries.",
+    "general": "General Inquiries"
+  },
+  "BlogHero": {
+    "title": "Stories & Guides",
+    "description": "Explore the vibrant rhythm of Busan through the lens of K-Pop pilgrimage sites, coastal culture, and hidden local gems curated for the modern traveler."
+  }
+}

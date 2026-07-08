@@ -1,7 +1,10 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
-export default function HeroSection() {
+export default async function HeroSection() {
+  const t = await getTranslations('Hero');
+
   return (
     <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
       <Image 
@@ -15,16 +18,18 @@ export default function HeroSection() {
       <div className="absolute inset-0 hero-gradient"></div>
       <div className="relative z-10 max-w-[1280px] mx-auto px-container-margin-mobile md:px-container-margin-desktop text-center text-white">
         <h1 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-6 drop-shadow-lg">
-          Explore the <span className="text-secondary-container">Purple</span> City
+          {t.rich('title', {
+            purple: (chunks) => <span className="text-primary [text-shadow:0_0_20px_rgba(223,183,255,0.9),0_0_45px_rgba(223,183,255,0.7),0_0_80px_rgba(223,183,255,0.5)]">{chunks}</span>
+          })}
         </h1>
         <p className="font-body-lg text-body-lg max-w-2xl mx-auto mb-10 opacity-90">
-          Your ultimate guide to the magic of Busan, curated for the global fandom community. Experience the locations your idols love.
+          {t('description')}
         </p>
         <Link href="/blog" className="inline-flex items-center px-10 py-4 primary-gradient rounded-full font-label-bold text-label-bold uppercase tracking-widest text-white pearl-blue-glow transition-all hover:scale-105 active:scale-95 shadow-lg">
-          Start Exploring
+          {t('cta')}
         </Link>
       </div>
-      <Link href="#pilgrimage" aria-label="Scroll down" className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/60 hover:text-white transition-colors cursor-pointer">
+      <Link href="/#pilgrimage" aria-label="Scroll down" className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/60 hover:text-white transition-colors cursor-pointer">
         <span className="material-symbols-outlined text-4xl">expand_more</span>
       </Link>
     </section>

@@ -1,0 +1,62 @@
+{
+  "Navbar": {
+    "stories": "스토리 & 가이드",
+    "pilgrimage": "성지순례",
+    "language": "언어 설정",
+    "search": "검색"
+  },
+  "Pilgrimage": {
+    "fan_favorites": "팬들의 인기 장소",
+    "title": "성지순례 코스",
+    "description": "전 세계 팬들에게 특별한 추억이 된 부산의 명소들을 엄선했습니다.",
+    "view_all": "모든 스토리 보기",
+    "view_details": "자세히 보기",
+    "discover": "마법 같은 순간 발견하기"
+  },
+  "Footer": {
+    "share_failed": "공유하기 실패:",
+    "copy_success": "링크가 클립보드에 복사되었습니다.",
+    "copy_failed": "클립보드 복사 실패:",
+    "description": "글로벌 K-컬처 커뮤니티를 위한 프리미엄 경험. 팬의 시선으로 부산의 소울을 발견하세요.",
+    "navigation": "탐색",
+    "stories": "스토리 & 가이드",
+    "pilgrimage": "성지순례 코스",
+    "legal_contact": "법적 고지 및 문의",
+    "privacy": "개인정보 처리방침",
+    "terms": "이용약관",
+    "cookies": "쿠키 설정",
+    "contact": "문의하기",
+    "copyright": "© 2026 Bora Busan. 모든 권리 보유.",
+    "crafted": "팬덤을 위해 💜로 만들었습니다."
+  },
+  "Hero": {
+    "title": "<purple>보라빛</purple> 도시를 탐험하세요",
+    "description": "글로벌 팬덤 커뮤니티를 위해 큐레이션된 부산의 마법에 대한 궁극적인 가이드. 아이돌이 사랑하는 장소들을 경험해 보세요.",
+    "cta": "탐험 시작하기"
+  },
+  "Privacy": {
+    "title": "개인정보 처리방침",
+    "last_updated": "최종 수정일:",
+    "description": "개인정보 처리방침은 현재 작성 중이며 곧 업데이트될 예정입니다. Bora Busan은 귀하의 개인정보와 프라이버시 권리를 보호하기 위해 최선을 다하고 있습니다."
+  },
+  "Terms": {
+    "title": "이용약관",
+    "last_updated": "최종 수정일:",
+    "description": "이용약관은 현재 작성 중이며 곧 업데이트될 예정입니다. Bora Busan을 이용함으로써 귀하는 커뮤니티 가이드라인 및 규칙을 준수하는 데 동의하게 됩니다."
+  },
+  "Cookies": {
+    "title": "쿠키 설정",
+    "last_updated": "최종 수정일:",
+    "description": "쿠키 정책 및 설정 센터는 현재 개발 중입니다. Bora Busan은 사이트 내 경험을 개선하기 위해 쿠키를 사용합니다."
+  },
+  "Contact": {
+    "title": "문의하기",
+    "subtitle": "여러분의 목소리를 기다립니다!",
+    "description": "공식 문의 채널을 준비 중입니다. 그 전까지는 아래 이메일을 통해 운영팀으로 문의해 주시기 바랍니다.",
+    "general": "일반 문의"
+  },
+  "BlogHero": {
+    "title": "스토리 & 가이드",
+    "description": "K-Pop 성지순례 명소, 해안 문화, 그리고 현대 여행자를 위해 큐레이션된 숨겨진 지역 명소들을 통해 부산의 생동감 넘치는 리듬을 탐험해 보세요."
+  }
+}

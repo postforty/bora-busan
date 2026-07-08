@@ -71,13 +71,18 @@ export default function PlaceInfoCard({ metadata }: { metadata: PlaceMetadata })
             <span className="material-symbols-outlined text-on-surface-variant text-[20px] mt-0.5">movie</span>
             <div>
               <p className="font-label-bold text-on-surface">관련 콘텐츠</p>
-              <div className="flex flex-wrap gap-2 mt-1">
+              <ul className="flex flex-col gap-2 mt-2">
                 {metadata.related_content.map((item, idx) => (
-                  <span key={idx} className="px-2 py-1 bg-secondary-container text-on-secondary-container text-[12px] font-label-bold rounded-md">
-                    {item.type.toUpperCase()}: {item.title}
-                  </span>
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="px-2 py-0.5 mt-[2px] bg-primary-fixed text-on-primary-fixed text-[11px] font-label-bold rounded shrink-0">
+                      {item.type.toUpperCase()}
+                    </span>
+                    <span className="text-body-sm sm:text-body-md text-on-surface-variant leading-snug">
+                      {item.title}
+                    </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </li>
         )}

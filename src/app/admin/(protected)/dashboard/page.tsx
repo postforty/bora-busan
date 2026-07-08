@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 import DeletePostButton from '@/components/admin/DeletePostButton';
+import LogoutButton from '@/components/admin/LogoutButton';
 
 interface Post {
   id: string;
@@ -39,12 +40,15 @@ export default function AdminDashboardPage() {
     <div className="container mx-auto px-4 pt-32 pb-12 max-w-5xl">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-headline-md text-on-surface">Admin Dashboard</h1>
-        <Link 
-          href="/admin/write" 
-          className="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-bold hover:bg-primary-container hover:text-on-primary-container transition-colors"
-        >
-          + Write New Post
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link 
+            href="/admin/write" 
+            className="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-bold hover:bg-primary-container hover:text-on-primary-container transition-colors"
+          >
+            + Write New Post
+          </Link>
+          <LogoutButton />
+        </div>
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-outline-variant/30 overflow-hidden">

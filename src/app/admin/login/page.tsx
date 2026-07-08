@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
       }
 
       // Success! Redirect to the protected write page
-      router.push('/admin/write');
+      router.push('/admin/dashboard');
     } catch (err: any) {
       setError(err.message || 'Failed to login');
     } finally {

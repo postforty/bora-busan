@@ -7,6 +7,10 @@ import { createClient } from '@/lib/supabase/client';
 import Image from 'next/image';
 
 import ClientAdminControls from '@/components/admin/ClientAdminControls';
+import PlaceInfoCard, { PlaceMetadata } from '@/components/blog/PlaceInfoCard';
+import CourseTimeline, { CourseMetadata } from '@/components/blog/CourseTimeline';
+import ViewTracker from '@/components/blog/ViewTracker';
+import LikeButton from '@/components/blog/LikeButton';
 
 export const runtime = 'edge';
 
@@ -34,7 +38,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <article className="pt-32 pb-section-gap">
-      <header className="max-w-[1000px] mx-auto px-container-margin-mobile md:px-container-margin-desktop mb-12">
+      <header className="max-w-[800px] mx-auto px-container-margin-mobile md:px-container-margin-desktop mb-12">
         <div className="flex items-center justify-between mb-8">
           <Link href="/blog" className="inline-flex items-center text-primary hover:underline font-label-bold transition-colors">
             <span className="material-symbols-outlined mr-1">arrow_back</span> Back to Blog
@@ -45,9 +49,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <span className="px-4 py-1.5 rounded-full bg-primary/10 text-primary font-label-bold text-[12px] uppercase tracking-wider">
             {post.category}
           </span>
-          <time className="text-on-surface-variant font-body-sm">
+          <time className="text-on-surface-variant font-body-sm flex-1">
             {new Date(post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </time>
+          <div className="flex items-center text-on-surface-variant gap-4">
+            <div className="flex items-center gap-1" title="Views">
+              <span className="material-symbols-outlined text-[18px]">visibility</span>
+              <span className="font-label-sm">{post.views || 0}</span>
+            </div>
+            <div className="flex items-center gap-1" title="Likes">
+              <span className="material-symbols-outlined text-[18px]">favorite</span>
+              <span className="font-label-sm">{post.likes || 0}</span>
+            </div>
+          </div>
         </div>
         <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg mb-6 leading-tight">
           {post.title}
@@ -62,13 +76,29 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         )}
       </header>
 
-      <div className="max-w-[800px] mx-auto px-container-margin-mobile md:px-container-margin-desktop prose prose-lg prose-slate dark:prose-invert prose-a:text-primary hover:prose-a:text-primary/80 prose-headings:font-display-md max-w-none">
-        <MDXRemote source={post.content} components={components} />
+      <div className="max-w-[800px] mx-auto px-container-margin-mobile md:px-container-margin-desktop mb-8">
+        {post.metadata && typeof post.metadata === 'object' && !Array.isArray(post.metadata) && (post.metadata as Record<string, unknown>).type === 'place' && (
+          <PlaceInfoCard metadata={post.metadata as unknown as PlaceMetadata} />
+        )}
+        {post.metadata && typeof post.metadata === 'object' && !Array.isArray(post.metadata) && (post.metadata as Record<string, unknown>).type === 'course' && (
+          <CourseTimeline metadata={post.metadata as unknown as CourseMetadata} />
+        )}
+      </div>
+
+      <div className="max-w-[800px] mx-auto px-container-margin-mobile md:px-container-margin-desktop">
+        <div className="prose prose-lg prose-slate dark:prose-invert prose-a:text-primary hover:prose-a:text-primary/80 prose-headings:font-display-md max-w-none">
+          <MDXRemote source={post.content} components={components} />
+        </div>
+      </div>
+      
+      <div className="max-w-[800px] mx-auto px-container-margin-mobile md:px-container-margin-desktop">
+        <LikeButton slug={post.slug} initialLikes={post.likes || 0} />
       </div>
       
       <div className="max-w-[800px] mx-auto px-container-margin-mobile md:px-container-margin-desktop mt-16">
         <AdSlot />
       </div>
+      <ViewTracker slug={post.slug} />
     </article>
   );
 }

@@ -14,8 +14,8 @@ export default function LogoutButton() {
       if (error) throw error;
       toast.success('로그아웃 되었습니다.');
       router.push('/admin/login');
-    } catch (error: any) {
-      toast.error(error.message || '로그아웃 중 오류가 발생했습니다.');
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : '로그아웃 중 오류가 발생했습니다.');
     }
   };
 

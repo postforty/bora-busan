@@ -8,6 +8,7 @@ interface BlogCardProps {
   category: string;
   imageUrl: string;
   likes: string;
+  views: string;
   badgeType: "primary" | "secondary" | "tertiary";
   href: string;
 }
@@ -19,6 +20,7 @@ export default function BlogCard({
   category,
   imageUrl,
   likes,
+  views,
   badgeType,
   href,
 }: BlogCardProps) {
@@ -58,9 +60,15 @@ export default function BlogCard({
             Read More
             <span className="material-symbols-outlined ml-1 text-[18px] transition-transform group-hover/link:translate-x-1">arrow_forward</span>
           </Link>
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-outline text-[18px]">favorite</span>
-            <span className="text-label-sm font-label-sm text-outline">{likes}</span>
+          <div className="flex items-center text-on-surface-variant gap-3">
+            <div className="flex items-center gap-1">
+              <span className="material-symbols-outlined text-[18px]">visibility</span>
+              <span className="font-label-md">{views}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className="material-symbols-outlined text-[18px]">favorite</span>
+              <span className="font-label-md">{likes}</span>
+            </div>
           </div>
         </div>
       </div>

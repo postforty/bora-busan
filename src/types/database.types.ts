@@ -21,6 +21,8 @@ export interface Database {
           badge_type: string | null
           slug: string
           created_at: string
+          metadata: Json | null
+          views: number
         }
         Insert: {
           id?: string
@@ -33,6 +35,8 @@ export interface Database {
           badge_type?: string | null
           slug: string
           created_at?: string
+          metadata?: Json | null
+          views?: number
         }
         Update: {
           id?: string
@@ -45,6 +49,8 @@ export interface Database {
           badge_type?: string | null
           slug?: string
           created_at?: string
+          metadata?: Json | null
+          views?: number
         }
       }
     }

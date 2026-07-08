@@ -46,8 +46,8 @@ export default function DeletePostButton({ slug, redirectTo, onDeleted, classNam
         // Also call router.refresh() if redirecting to a page that might have cached data
         router.refresh();
       }
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to delete post');
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'Failed to delete post');
     } finally {
       setIsDeleting(false);
     }

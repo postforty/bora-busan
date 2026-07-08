@@ -30,6 +30,7 @@ export default async function BlogPage() {
               category={post.category}
               imageUrl={post.image_url}
               likes={post.likes.toString()}
+              views={post.views?.toString() || "0"}
               badgeType={post.badge_type as "primary" | "secondary"}
               href={`/blog/${post.slug}`}
             />

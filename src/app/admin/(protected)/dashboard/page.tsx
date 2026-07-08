@@ -88,9 +88,9 @@ export default function AdminDashboardPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end items-center gap-2">
-                        <button className="inline-flex items-center justify-center p-2 rounded-lg text-on-surface-variant hover:bg-surface hover:text-primary transition-colors" title="Edit Post (Coming Soon)">
+                        <Link href={`/admin/edit/${post.slug}`} className="inline-flex items-center justify-center p-2 rounded-lg text-on-surface-variant hover:bg-surface hover:text-primary transition-colors" title="Edit Post">
                           <span className="material-symbols-outlined text-[20px]">edit</span>
-                        </button>
+                        </Link>
                         <DeletePostButton 
                           slug={post.slug} 
                           onDeleted={fetchPosts}

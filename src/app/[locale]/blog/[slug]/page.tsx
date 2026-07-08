@@ -17,7 +17,9 @@ export const runtime = 'edge';
 // Custom components to inject into MDX
 const components = {
   AdSlot,
+  adslot: AdSlot,
   AffiliateButton,
+  affiliatebutton: AffiliateButton,
 };
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {

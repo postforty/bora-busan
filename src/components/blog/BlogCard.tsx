@@ -28,11 +28,11 @@ export default function BlogCard({
   let badgeTextClass = "text-on-primary";
   
   if (badgeType === "secondary") {
+    badgeBgClass = "bg-[#873ec4]";
+    badgeTextClass = "text-white";
+  } else if (badgeType === "tertiary") {
     badgeBgClass = "bg-primary-fixed";
     badgeTextClass = "text-on-primary-fixed";
-  } else if (badgeType === "tertiary") {
-    badgeBgClass = "bg-primary/10";
-    badgeTextClass = "text-primary";
   }
 
   return (

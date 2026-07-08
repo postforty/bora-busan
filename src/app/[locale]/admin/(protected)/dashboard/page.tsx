@@ -12,6 +12,7 @@ interface Post {
   slug: string;
   category: string;
   created_at: string;
+  badge_type: 'primary' | 'secondary' | 'tertiary';
 }
 
 export default function AdminDashboardPage() {
@@ -23,7 +24,7 @@ export default function AdminDashboardPage() {
     setLoading(true);
     const { data, error } = await supabase
       .from('posts')
-      .select('id, title, slug, category, created_at')
+      .select('id, title, slug, category, created_at, badge_type')
       .order('created_at', { ascending: false });
     
     if (!error && data) {
@@ -79,7 +80,11 @@ export default function AdminDashboardPage() {
                       <span className="text-body-sm text-on-surface-variant block mt-1 truncate">/{post.slug}</span>
                     </td>
                     <td className="px-6 py-4 text-body-md text-on-surface">
-                      <span className="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-bold text-[12px] uppercase">
+                      <span className={`px-3 py-1 rounded-full font-label-bold text-[12px] uppercase tracking-wider ${
+                        post.badge_type === 'secondary' ? 'bg-[#873ec4] text-white' :
+                        post.badge_type === 'tertiary' ? 'bg-primary-fixed text-on-primary-fixed' :
+                        'bg-primary text-on-primary'
+                      }`}>
                         {post.category}
                       </span>
                     </td>
@@ -88,7 +93,7 @@ export default function AdminDashboardPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end items-center gap-2">
-                        <Link href={`/admin/edit/${post.slug}`} className="inline-flex items-center justify-center p-2 rounded-lg text-on-surface-variant hover:bg-surface hover:text-primary transition-colors" title="게시글 수정">
+                        <Link href={`/admin/edit/${post.slug}`} className="inline-flex items-center justify-center p-2 rounded-lg text-primary hover:bg-primary/10 transition-colors" title="게시글 수정">
                           <span className="material-symbols-outlined text-[20px]">edit</span>
                         </Link>
                         <DeletePostButton 

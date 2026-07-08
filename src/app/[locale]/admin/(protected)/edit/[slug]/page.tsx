@@ -206,6 +206,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
             <select name="badge_type" defaultValue={initialData?.badge_type} className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none">
               <option value="primary">Primary</option>
               <option value="secondary">Secondary</option>
+              <option value="tertiary">Tertiary</option>
             </select>
           </div>
         </div>
@@ -242,9 +243,22 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
           <MarkdownEditor initialValue={content} onChange={(val) => setContent(val || '')} />
         </div>
 
-        <button disabled={loading} type="submit" className="mt-6 bg-primary text-on-primary font-label-bold py-4 px-6 rounded-xl hover:bg-primary-container hover:text-on-primary-container disabled:opacity-50 transition-colors shadow-md">
-          {loading ? '수정 중...' : '게시글 수정'}
-        </button>
+        <div className="mt-6 flex flex-col sm:flex-row gap-4">
+          <button 
+            type="button"
+            onClick={() => router.push('/admin/dashboard')}
+            className="flex-1 bg-surface-variant text-on-surface-variant font-label-bold py-4 px-6 rounded-xl hover:bg-outline-variant transition-colors"
+          >
+            취소
+          </button>
+          <button 
+            disabled={loading} 
+            type="submit" 
+            className="flex-[2] bg-primary text-on-primary font-label-bold py-4 px-6 rounded-xl hover:bg-primary-container hover:text-on-primary-container disabled:opacity-50 transition-colors shadow-md"
+          >
+            {loading ? '수정 중...' : '게시글 수정'}
+          </button>
+        </div>
       </form>
     </div>
   );

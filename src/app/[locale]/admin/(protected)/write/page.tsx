@@ -171,6 +171,7 @@ export default function AdminWritePage() {
             <select name="badge_type" className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none">
               <option value="primary">Primary</option>
               <option value="secondary">Secondary</option>
+              <option value="tertiary">Tertiary</option>
             </select>
           </div>
         </div>

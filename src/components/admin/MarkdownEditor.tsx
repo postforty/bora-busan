@@ -4,6 +4,8 @@ import dynamic from 'next/dynamic';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import { useState } from 'react';
+import AdSlot from '@/components/monetization/AdSlot';
+import AffiliateButton from '@/components/monetization/AffiliateButton';
 
 // Dynamically import the editor with SSR disabled
 // This prevents the huge bundle size from affecting the initial page load
@@ -43,6 +45,18 @@ export default function MarkdownEditor({ initialValue = '', onChange }: Markdown
         height={500}
         preview="live"
         className="rounded-xl overflow-hidden shadow-sm"
+        previewOptions={{
+          components: {
+            // @ts-expect-error - Custom component mapping
+            affiliatebutton: AffiliateButton,
+            // @ts-expect-error - Custom component mapping
+            AffiliateButton: AffiliateButton,
+            // @ts-expect-error - Custom component mapping
+            adslot: AdSlot,
+            // @ts-expect-error - Custom component mapping
+            AdSlot: AdSlot,
+          }
+        }}
       />
     </div>
   );

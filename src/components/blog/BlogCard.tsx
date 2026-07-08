@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
 
 interface BlogCardProps {
@@ -28,11 +28,11 @@ export default function BlogCard({
   let badgeTextClass = "text-on-primary";
   
   if (badgeType === "secondary") {
-    badgeBgClass = "bg-secondary-container";
-    badgeTextClass = "text-on-secondary-container";
+    badgeBgClass = "bg-primary-fixed";
+    badgeTextClass = "text-on-primary-fixed";
   } else if (badgeType === "tertiary") {
-    badgeBgClass = "bg-tertiary-container";
-    badgeTextClass = "text-on-tertiary-container";
+    badgeBgClass = "bg-primary/10";
+    badgeTextClass = "text-primary";
   }
 
   return (

@@ -45,7 +45,7 @@ export default async function PilgrimageSection() {
               <Image alt={post1.title} className="object-cover transition-transform duration-700 group-hover:scale-110" src={post1.image_url} fill sizes="(max-width: 768px) 100vw, 66vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent"></div>
               <div className="absolute top-6 right-6">
-                <span className="px-4 py-1 bg-primary text-white font-label-bold text-label-bold rounded-full">{post1.category}</span>
+                <span className="px-4 py-1 bg-primary text-on-primary font-label-bold text-label-bold rounded-full tracking-wider">{post1.category}</span>
               </div>
               <div className="absolute bottom-0 left-0 p-8 w-full flex justify-between items-end">
                 <div>
@@ -65,12 +65,12 @@ export default async function PilgrimageSection() {
               <Image alt={post2.title} className="object-cover transition-transform duration-700 group-hover:scale-110" src={post2.image_url} fill sizes="(max-width: 768px) 100vw, 33vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent"></div>
               <div className="absolute top-6 right-6">
-                <span className="px-4 py-1 bg-secondary text-white font-label-bold text-label-bold rounded-full">{post2.category}</span>
+                <span className="px-4 py-1 bg-primary-fixed text-on-primary-fixed font-label-bold text-label-bold rounded-full tracking-wider">{post2.category}</span>
               </div>
               <div className="absolute bottom-0 left-0 p-8 w-full">
                 <h3 className="font-headline-sm text-headline-sm text-white mb-2">{post2.title}</h3>
                 <p className="font-body-md text-body-md text-white/80 line-clamp-2">{post2.description}</p>
-                <div className="mt-4 inline-flex items-center text-secondary-fixed font-label-bold text-label-bold">
+                <div className="mt-4 inline-flex items-center text-primary-fixed font-label-bold text-label-bold group-hover:text-primary-fixed-dim transition-colors">
                   {t('view_details')} <span className="material-symbols-outlined ml-2 text-sm">open_in_new</span>
                 </div>
               </div>
@@ -83,7 +83,7 @@ export default async function PilgrimageSection() {
               <Image alt={post3.title} className="object-cover transition-transform duration-700 group-hover:scale-105" src={post3.image_url} fill sizes="(max-width: 768px) 100vw, 1280px" />
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
               <div className="absolute top-6 right-6">
-                <span className="px-4 py-1 bg-tertiary text-white font-label-bold text-label-bold rounded-full">{post3.category}</span>
+                <span className="px-4 py-1 bg-primary-container text-on-primary-container font-label-bold text-label-bold rounded-full tracking-wider">{post3.category}</span>
               </div>
               <div className="absolute inset-0 flex items-center p-12">
                 <div className="max-w-lg">

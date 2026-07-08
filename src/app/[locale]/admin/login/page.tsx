@@ -34,13 +34,13 @@ export default function AdminLoginPage() {
       if (userRole !== 'admin') {
         // If not admin, sign them out immediately
         await supabase.auth.signOut();
-        throw new Error('Access denied. Administrator privileges required.');
+        throw new Error('접근 거부. 관리자 권한이 필요합니다.');
       }
 
       // Success! Redirect to the protected write page
       router.push('/admin/dashboard');
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to login');
+      setError(err instanceof Error ? err.message : '로그인에 실패했습니다');
     } finally {
       setLoading(false);
     }
@@ -55,8 +55,8 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md relative z-10">
         <div className="bg-white/80 backdrop-blur-xl border border-outline-variant/30 rounded-2xl p-8 shadow-[0_8px_30px_rgba(30,41,59,0.08)]">
           <div className="text-center mb-8">
-            <h1 className="font-headline-sm text-headline-sm text-on-surface mb-2">Admin Portal</h1>
-            <p className="font-body-md text-body-md text-on-surface-variant">Sign in to manage Bora Busan contents</p>
+            <h1 className="font-headline-sm text-headline-sm text-on-surface mb-2">관리자 포털</h1>
+            <p className="font-body-md text-body-md text-on-surface-variant">보라 부산 콘텐츠 관리를 위해 로그인하세요</p>
           </div>
 
           {error && (
@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
             <div className="flex flex-col gap-2">
-              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">Email Address</label>
+              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">이메일 주소</label>
               <input 
                 type="email" 
                 required
@@ -80,7 +80,7 @@ export default function AdminLoginPage() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">Password</label>
+              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">비밀번호</label>
               <input 
                 type="password" 
                 required
@@ -96,14 +96,14 @@ export default function AdminLoginPage() {
               disabled={loading}
               className="mt-4 w-full bg-primary text-on-primary font-label-bold py-4 rounded-xl hover:bg-primary-container hover:text-on-primary-container disabled:opacity-50 transition-colors shadow-md relative overflow-hidden group"
             >
-              <span className="relative z-10">{loading ? 'Authenticating...' : 'Sign In'}</span>
+              <span className="relative z-10">{loading ? '인증 중...' : '로그인'}</span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform"></div>
             </button>
           </form>
 
           <div className="mt-8 pt-6 border-t border-outline-variant/30 text-center">
             <p className="text-[12px] text-on-surface-variant/70">
-              Authorized personnel only. Contact system administrator for access.
+              인가된 사용자만 접근할 수 있습니다. 시스템 관리자에게 문의하세요.
             </p>
           </div>
         </div>

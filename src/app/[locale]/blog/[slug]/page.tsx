@@ -2,7 +2,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import AdSlot from '@/components/monetization/AdSlot';
 import AffiliateButton from '@/components/monetization/AffiliateButton';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { createClient } from '@/lib/supabase/client';
 import Image from 'next/image';
 

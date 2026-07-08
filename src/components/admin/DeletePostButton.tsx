@@ -18,7 +18,7 @@ export default function DeletePostButton({ slug, redirectTo, onDeleted, classNam
   const supabase = createClient();
 
   const handleDelete = async () => {
-    if (!window.confirm(`Are you sure you want to delete the post "${slug}"?\nThis action cannot be undone.`)) {
+    if (!window.confirm(`게시글 "${slug}"을(를) 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) {
       return;
     }
 
@@ -35,7 +35,7 @@ export default function DeletePostButton({ slug, redirectTo, onDeleted, classNam
         throw new Error(error.message);
       }
 
-      toast.success('Post deleted successfully!');
+      toast.success('게시글이 성공적으로 삭제되었습니다!');
       
       if (onDeleted) {
         onDeleted();
@@ -47,7 +47,7 @@ export default function DeletePostButton({ slug, redirectTo, onDeleted, classNam
         router.refresh();
       }
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Failed to delete post');
+      toast.error(err instanceof Error ? err.message : '게시글 삭제에 실패했습니다.');
     } finally {
       setIsDeleting(false);
     }
@@ -58,7 +58,7 @@ export default function DeletePostButton({ slug, redirectTo, onDeleted, classNam
       onClick={handleDelete}
       disabled={isDeleting}
       className={`inline-flex items-center justify-center text-error hover:bg-error/10 p-2 rounded-lg transition-colors disabled:opacity-50 ${className || ''}`}
-      title="Delete Post"
+      title="게시글 삭제"
     >
       <span className="material-symbols-outlined text-[20px]">delete</span>
     </button>

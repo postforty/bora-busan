@@ -14,7 +14,7 @@ const MDEditor = dynamic(
     ssr: false,
     loading: () => (
       <div className="w-full h-[500px] bg-surface-container-low border border-outline-variant/30 rounded-xl animate-pulse flex items-center justify-center">
-        <span className="text-on-surface-variant font-label-bold">Loading Editor...</span>
+        <span className="text-on-surface-variant font-label-bold">에디터를 불러오는 중...</span>
       </div>
     )
   }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import DeletePostButton from '@/components/admin/DeletePostButton';
 import LogoutButton from '@/components/admin/LogoutButton';
 
@@ -41,13 +41,13 @@ export default function AdminDashboardPage() {
   return (
     <div className="container mx-auto px-4 pt-32 pb-12 max-w-5xl">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-headline-md text-on-surface">Admin Dashboard</h1>
+        <h1 className="text-headline-md text-on-surface">관리자 대시보드</h1>
         <div className="flex items-center gap-3">
           <Link 
             href="/admin/write" 
             className="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-bold hover:bg-primary-container hover:text-on-primary-container transition-colors"
           >
-            + Write New Post
+            + 새 글 작성
           </Link>
           <LogoutButton />
         </div>
@@ -55,18 +55,18 @@ export default function AdminDashboardPage() {
 
       <div className="bg-white rounded-2xl shadow-sm border border-outline-variant/30 overflow-hidden">
         {loading ? (
-          <div className="p-12 text-center text-on-surface-variant">Loading posts...</div>
+          <div className="p-12 text-center text-on-surface-variant">게시글을 불러오는 중...</div>
         ) : posts.length === 0 ? (
-          <div className="p-12 text-center text-on-surface-variant">No posts found. Create one!</div>
+          <div className="p-12 text-center text-on-surface-variant">게시글이 없습니다. 첫 글을 작성해보세요!</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-surface-variant text-on-surface-variant text-label-md uppercase tracking-wider">
-                  <th className="px-6 py-4 border-b border-outline-variant/30 font-medium">Title</th>
-                  <th className="px-6 py-4 border-b border-outline-variant/30 font-medium">Category</th>
-                  <th className="px-6 py-4 border-b border-outline-variant/30 font-medium">Date</th>
-                  <th className="px-6 py-4 border-b border-outline-variant/30 font-medium text-right">Actions</th>
+                  <th className="px-6 py-4 border-b border-outline-variant/30 font-medium">제목</th>
+                  <th className="px-6 py-4 border-b border-outline-variant/30 font-medium">카테고리</th>
+                  <th className="px-6 py-4 border-b border-outline-variant/30 font-medium">작성일</th>
+                  <th className="px-6 py-4 border-b border-outline-variant/30 font-medium text-right">작업</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/30">
@@ -88,7 +88,7 @@ export default function AdminDashboardPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end items-center gap-2">
-                        <Link href={`/admin/edit/${post.slug}`} className="inline-flex items-center justify-center p-2 rounded-lg text-on-surface-variant hover:bg-surface hover:text-primary transition-colors" title="Edit Post">
+                        <Link href={`/admin/edit/${post.slug}`} className="inline-flex items-center justify-center p-2 rounded-lg text-on-surface-variant hover:bg-surface hover:text-primary transition-colors" title="게시글 수정">
                           <span className="material-symbols-outlined text-[20px]">edit</span>
                         </Link>
                         <DeletePostButton 

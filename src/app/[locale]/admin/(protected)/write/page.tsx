@@ -23,7 +23,7 @@ export default function AdminWritePage() {
 
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session) throw new Error('Unauthorized');
+      if (!session) throw new Error('권한이 없습니다');
 
       const title = formData.get('title') as string;
       const slug = formData.get('slug') as string;
@@ -33,14 +33,14 @@ export default function AdminWritePage() {
       const imageFile = formData.get('imageFile') as File | null;
       
       if (!title || !slug || !description || !category || !badge_type || !content) {
-        throw new Error('All text fields are required');
+        throw new Error('모든 텍스트 필드를 입력해야 합니다');
       }
 
       let parsedMetadata = null;
       try {
         parsedMetadata = JSON.parse(metadataJson);
       } catch {
-        throw new Error('Invalid JSON format in Metadata field');
+        throw new Error('메타데이터 필드의 JSON 형식이 잘못되었습니다');
       }
 
       let image_url = '';
@@ -56,7 +56,7 @@ export default function AdminWritePage() {
           .upload(filePath, imageFile);
 
         if (uploadError) {
-          throw new Error('Image upload failed');
+          throw new Error('이미지 업로드에 실패했습니다');
         }
 
         const { data: { publicUrl } } = supabase.storage
@@ -65,7 +65,7 @@ export default function AdminWritePage() {
 
         image_url = publicUrl;
       } else {
-        throw new Error('Thumbnail image is required');
+        throw new Error('썸네일 이미지가 필요합니다');
       }
 
       // Insert to DB
@@ -84,13 +84,13 @@ export default function AdminWritePage() {
         });
 
       if (insertError) {
-        throw new Error(`Insert failed: ${insertError.message}`);
+        throw new Error(`등록에 실패했습니다: ${insertError.message}`);
       }
 
-      toast.success('Post created successfully!');
+      toast.success('게시글이 성공적으로 등록되었습니다!');
       router.push('/blog');
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'An error occurred');
+      toast.error(err instanceof Error ? err.message : '오류가 발생했습니다');
     } finally {
       setLoading(false);
     }
@@ -99,10 +99,10 @@ export default function AdminWritePage() {
   return (
     <div className="container mx-auto px-4 pt-32 pb-12 max-w-4xl">
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 bg-white shadow-sm rounded-2xl p-8 border border-outline-variant/30">
-        <h1 className="text-headline-md text-on-surface mb-4">Write New Post</h1>
+        <h1 className="text-headline-md text-on-surface mb-4">새 글 작성</h1>
         
         <div className="flex flex-col gap-2">
-          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">Post Format Type</label>
+          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">게시글 포맷 타입</label>
           <select 
             value={postType}
             onChange={(e) => {
@@ -140,23 +140,23 @@ export default function AdminWritePage() {
         </div>
         
         <div className="flex flex-col gap-2">
-          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">Title</label>
-          <input name="title" required className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Enter post title" />
+          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">제목</label>
+          <input name="title" required className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="게시글 제목을 입력하세요" />
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">Slug</label>
+          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">슬러그 (URL)</label>
           <input name="slug" required className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="my-awesome-post" />
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">Description</label>
-          <textarea name="description" required className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none" rows={3} placeholder="A short summary of the post"></textarea>
+          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">요약 설명</label>
+          <textarea name="description" required className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none" rows={3} placeholder="게시글의 짧은 요약"></textarea>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2">
-            <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">Category</label>
+            <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">카테고리</label>
             <select name="category" className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none">
               <option value="K-Pop Pilgrimage">K-Pop Pilgrimage</option>
               <option value="Cafe Tour">Cafe Tour</option>
@@ -167,7 +167,7 @@ export default function AdminWritePage() {
             </select>
           </div>
           <div className="flex flex-col gap-2">
-            <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">Badge Type</label>
+            <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">배지 타입</label>
             <select name="badge_type" className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none">
               <option value="primary">Primary</option>
               <option value="secondary">Secondary</option>
@@ -176,7 +176,7 @@ export default function AdminWritePage() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">Thumbnail Image</label>
+          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">썸네일 이미지</label>
           <input type="file" name="imageFile" accept="image/*" required className="px-4 py-3 border border-outline-variant rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-label-bold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" />
         </div>
 
@@ -194,12 +194,12 @@ export default function AdminWritePage() {
         )}
 
         <div className="flex flex-col gap-2">
-          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">Content (Markdown)</label>
+          <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">본문 (마크다운)</label>
           <MarkdownEditor initialValue={content} onChange={(val) => setContent(val || '')} />
         </div>
 
         <button disabled={loading} type="submit" className="mt-6 bg-primary text-on-primary font-label-bold py-4 px-6 rounded-xl hover:bg-primary-container hover:text-on-primary-container disabled:opacity-50 transition-colors shadow-md">
-          {loading ? 'Publishing...' : 'Publish Post'}
+          {loading ? '등록 중...' : '게시글 등록'}
         </button>
       </form>
     </div>

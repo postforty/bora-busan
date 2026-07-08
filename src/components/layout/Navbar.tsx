@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import SearchModal from "@/components/search/SearchModal";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -34,7 +36,11 @@ export default function Navbar() {
           <button aria-label="Language" className="p-2 text-on-surface-variant hover:text-primary transition-colors">
             <span className="material-symbols-outlined">language</span>
           </button>
-          <button aria-label="Search" className="p-2 text-on-surface-variant hover:text-primary transition-colors">
+          <button 
+            aria-label="Search" 
+            onClick={() => setIsSearchOpen(true)}
+            className="p-2 text-on-surface-variant hover:text-primary transition-colors"
+          >
             <span className="material-symbols-outlined">search</span>
           </button>
           <button aria-label="Menu" className="md:hidden p-2 text-on-surface-variant">
@@ -42,6 +48,7 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </nav>
   );
 }

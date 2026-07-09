@@ -65,7 +65,7 @@
 ---
 
 ## 3. 쿠키 설정
-- **Slug (경로):** `cookie` 또는 `cookie-policy`
+- **Slug (경로):** `cookies`
 - **카테고리:** `policy`
 
 ```markdown

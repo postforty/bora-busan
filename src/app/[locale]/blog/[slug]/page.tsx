@@ -9,6 +9,7 @@ import Image from 'next/image';
 import ClientAdminControls from '@/components/admin/ClientAdminControls';
 import PlaceInfoCard, { PlaceMetadata } from '@/components/blog/PlaceInfoCard';
 import CourseTimeline, { CourseMetadata } from '@/components/blog/CourseTimeline';
+import VideoPlayer, { VideoMetadata } from '@/components/blog/VideoPlayer';
 import ViewTracker from '@/components/blog/ViewTracker';
 import LikeButton from '@/components/blog/LikeButton';
 
@@ -90,6 +91,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         )}
         {metadata && typeof metadata === 'object' && !Array.isArray(metadata) && String((metadata as Record<string, unknown>).type).toLowerCase() === 'course' && (
           <CourseTimeline metadata={metadata as unknown as CourseMetadata} />
+        )}
+        {metadata && typeof metadata === 'object' && !Array.isArray(metadata) && String((metadata as Record<string, unknown>).type).toLowerCase() === 'video' && (
+          <VideoPlayer metadata={metadata as unknown as VideoMetadata} />
         )}
       </div>
 

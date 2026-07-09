@@ -196,3 +196,71 @@ GRANT SELECT ON post_translations TO anon, authenticated;
   "duration": "10:30" // 영상 총 재생 시간
 }
 ```
+
+## 🛠️ 트러블슈팅 (Troubleshooting)
+
+### Supabase 데이터베이스 및 스토리지 설정 관련
+프로젝트 진행 중 발생했던 Supabase 관련 주요 오류와 해결 방법입니다. 동일한 데이터베이스 환경을 새로 구축할 경우 아래 사항들을 유의해야 합니다.
+
+**1. 다국어 게시글 저장 시 `403 Forbidden` 오류**
+* **증상**: 관리자 페이지에서 글 작성 후 저장할 때 `posts` 테이블 접근 권한 거부 발생.
+* **원인**: RLS(Row Level Security) 정책은 설정되어 있었으나, `authenticated` 역할(Role)에 대한 테이블 수준의 쓰기(INSERT, UPDATE, DELETE) 권한(GRANT) 자체가 누락되어 발생함.
+* **해결**: SQL 에디터에서 아래 명령어를 실행하여 테이블 권한 부여.
+  ```sql
+  GRANT INSERT, UPDATE, DELETE ON public.posts TO authenticated;
+  GRANT INSERT, UPDATE, DELETE ON public.post_translations TO authenticated;
+  ```
+
+**2. 썸네일 이미지 업로드 시 `400 Bad Request` 오류**
+* **증상**: 글 작성 시 썸네일 이미지를 첨부하고 저장하면 스토리지 업로드 실패 발생.
+* **원인**: 이미지를 저장할 `blog-media` 스토리지 버킷이 생성되어 있지 않았음.
+* **해결**: `blog-media` 버킷을 생성하고, 누구나 읽을 수 있도록(Public) 설정한 뒤 `authenticated` 사용자만 업로드, 수정, 삭제 가능하도록 스토리지 RLS 정책을 추가함.
+  ```sql
+  -- 버킷 생성
+  INSERT INTO storage.buckets (id, name, public) VALUES ('blog-media', 'blog-media', true);
+
+  -- RLS 정책 설정
+  CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'blog-media');
+  CREATE POLICY "Auth Upload Access" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'blog-media');
+  CREATE POLICY "Auth Update Access" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'blog-media');
+  CREATE POLICY "Auth Delete Access" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'blog-media');
+  ```
+
+**3. 조회수 및 좋아요 클릭 시 `404 Not Found` 오류**
+* **증상**: 게시글 상세 보기 진입 시, 또는 좋아요 버튼 클릭 시 클라이언트 콘솔에 RPC 호출 실패 발생.
+* **원인**: 클라이언트에서 호출하는 `increment_view`, `increment_like`, `decrement_like` PostgreSQL 함수가 DB에 없었음.
+* **해결**: 조회수와 좋아요 카운트를 안전하게 변경할 수 있도록 `SECURITY DEFINER` 옵션이 적용된 RPC 함수 3종을 생성하여 해결.
+  ```sql
+  -- 조회수 증가
+  CREATE OR REPLACE FUNCTION public.increment_view(post_slug text)
+  RETURNS void
+  LANGUAGE sql
+  SECURITY DEFINER
+  AS $$
+    UPDATE public.posts
+    SET views = COALESCE(views, 0) + 1
+    WHERE slug = post_slug;
+  $$;
+
+  -- 좋아요 증가
+  CREATE OR REPLACE FUNCTION public.increment_like(post_slug text)
+  RETURNS void
+  LANGUAGE sql
+  SECURITY DEFINER
+  AS $$
+    UPDATE public.posts
+    SET likes = COALESCE(likes, 0) + 1
+    WHERE slug = post_slug;
+  $$;
+
+  -- 좋아요 감소
+  CREATE OR REPLACE FUNCTION public.decrement_like(post_slug text)
+  RETURNS void
+  LANGUAGE sql
+  SECURITY DEFINER
+  AS $$
+    UPDATE public.posts
+    SET likes = GREATEST(COALESCE(likes, 0) - 1, 0)
+    WHERE slug = post_slug;
+  $$;
+  ```

@@ -94,6 +94,7 @@ export default function AdminDashboardPage() {
                     </td>
                     <td className="px-6 py-4 text-body-md text-on-surface">
                       <span className={`px-3 py-1 rounded-full font-label-bold text-[12px] uppercase tracking-wider ${
+                        post.category === 'Policy' ? 'bg-outline-variant text-on-surface' :
                         post.badge_type === 'secondary' ? 'bg-[#873ec4] text-white' :
                         post.badge_type === 'tertiary' ? 'bg-primary-fixed text-on-primary-fixed' :
                         'bg-primary text-on-primary'

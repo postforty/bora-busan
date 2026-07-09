@@ -10,6 +10,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
     .from("posts")
     .select("*, post_translations!inner(*)")
     .eq("post_translations.locale", locale)
+    .neq("category", "Policy")
     .order("created_at", { ascending: false });
 
   if (error) {

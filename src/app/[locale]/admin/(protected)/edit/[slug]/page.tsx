@@ -236,7 +236,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
           throw new Error(`[${lang.toUpperCase()}] 메타데이터 JSON 형식이 잘못되었습니다.`);
         }
 
-        if (!title[lang] || !description[lang] || !content[lang]) {
+        if (!title[lang] || (category !== 'Policy' && !description[lang]) || !content[lang]) {
           throw new Error(`[${lang.toUpperCase()}] 모든 텍스트 필드를 입력해야 합니다.`);
         }
 
@@ -325,15 +325,26 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
-              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">게시글 포맷 타입</label>
+              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">카테고리</label>
               <select
-                value={postType}
-                onChange={(e) => handleMetadataTemplateChange(e.target.value as 'standard' | 'place' | 'course')}
+                value={category}
+                onChange={e => {
+                  const val = e.target.value;
+                  setCategory(val);
+                  if (val === 'Policy') {
+                    handleMetadataTemplateChange('standard');
+                    setBadgeType('primary');
+                  }
+                }}
                 className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
               >
-                <option value="standard">Standard (기본 블로그)</option>
-                <option value="place">Place (장소 스팟형)</option>
-                <option value="course">Course (코스 일정형)</option>
+                <option value="K-Pop Pilgrimage">K-Pop Pilgrimage</option>
+                <option value="Cafe Tour">Cafe Tour</option>
+                <option value="Coastal Life">Coastal Life</option>
+                <option value="Foodie Finds">Foodie Finds</option>
+                <option value="Arts & Design">Arts & Design</option>
+                <option value="Events">Events</option>
+                <option value="Policy">Policy (약관/정책)</option>
               </select>
             </div>
 
@@ -349,27 +360,32 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">카테고리</label>
+              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest flex justify-between">
+                <span>게시글 포맷 타입</span>
+                {category === 'Policy' && <span className="text-primary text-xs normal-case">정책용 고정</span>}
+              </label>
               <select
-                value={category}
-                onChange={e => setCategory(e.target.value)}
-                className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                value={postType}
+                onChange={(e) => handleMetadataTemplateChange(e.target.value as 'standard' | 'place' | 'course')}
+                disabled={category === 'Policy'}
+                className={`px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none ${category === 'Policy' ? 'bg-surface-variant opacity-60 cursor-not-allowed' : ''}`}
               >
-                <option value="K-Pop Pilgrimage">K-Pop Pilgrimage</option>
-                <option value="Cafe Tour">Cafe Tour</option>
-                <option value="Coastal Life">Coastal Life</option>
-                <option value="Foodie Finds">Foodie Finds</option>
-                <option value="Arts & Design">Arts & Design</option>
-                <option value="Events">Events</option>
+                <option value="standard">Standard (기본 블로그)</option>
+                <option value="place">Place (장소 스팟형)</option>
+                <option value="course">Course (코스 일정형)</option>
               </select>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">배지 타입</label>
+              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest flex justify-between">
+                <span>배지 타입</span>
+                {category === 'Policy' && <span className="text-primary text-xs normal-case">미사용</span>}
+              </label>
               <select
                 value={badgeType}
                 onChange={e => setBadgeType(e.target.value)}
-                className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                disabled={category === 'Policy'}
+                className={`px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none ${category === 'Policy' ? 'bg-surface-variant opacity-60 cursor-not-allowed' : ''}`}
               >
                 <option value="primary">Primary</option>
                 <option value="secondary">Secondary</option>
@@ -425,17 +441,19 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
                 />
               </div>
 
-              <div className="flex flex-col gap-2">
-                <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">요약 설명</label>
-                <textarea
-                  value={description[langCode]}
-                  onChange={e => setDescription(prev => ({ ...prev, [langCode]: e.target.value }))}
-                  required
-                  className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-                  rows={3}
-                  placeholder="게시글의 짧은 요약"
-                />
-              </div>
+              {category !== 'Policy' && (
+                <div className="flex flex-col gap-2">
+                  <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">요약 설명</label>
+                  <textarea
+                    value={description[langCode]}
+                    onChange={e => setDescription(prev => ({ ...prev, [langCode]: e.target.value }))}
+                    required={category !== 'Policy'}
+                    className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                    rows={3}
+                    placeholder="게시글의 짧은 요약"
+                  />
+                </div>
+              )}
 
               {postType !== 'standard' && (
                 <div className="flex flex-col gap-2">

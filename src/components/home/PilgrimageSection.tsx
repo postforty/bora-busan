@@ -16,6 +16,7 @@ export default async function PilgrimageSection() {
     .from('posts')
     .select('*, post_translations!inner(*)')
     .eq('post_translations.locale', locale)
+    .neq('category', 'Policy')
     .order('created_at', { ascending: false })
     .limit(3);
 

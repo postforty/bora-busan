@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 
+export const runtime = 'edge';
+
 export async function POST(request: Request) {
   try {
     const { text, targetLocale, isJson, model = 'gemini-3.1-flash-lite' } = await request.json();

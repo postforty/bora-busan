@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   description: "Your ultimate guide to the magic of Busan, curated for the global fandom community.",
 };
 
+export const runtime = 'edge';
+
 export default async function RootLayout({
   children,
   params

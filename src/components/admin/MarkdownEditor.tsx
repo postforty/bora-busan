@@ -52,13 +52,13 @@ export default function MarkdownEditor({ initialValue = '', onChange }: Markdown
         className="rounded-xl overflow-hidden shadow-sm"
         previewOptions={{
           components: {
-            // @ts-expect-error - Custom component mapping
+            // @ts-ignore - Custom component mapping
             affiliatebutton: AffiliateButton,
-            // @ts-expect-error - Custom component mapping
+            // @ts-ignore - Custom component mapping
             AffiliateButton: AffiliateButton,
-            // @ts-expect-error - Custom component mapping
+            // @ts-ignore - Custom component mapping
             adslot: AdSlot,
-            // @ts-expect-error - Custom component mapping
+            // @ts-ignore - Custom component mapping
             AdSlot: AdSlot,
           }
         }}

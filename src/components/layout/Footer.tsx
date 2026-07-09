@@ -9,7 +9,7 @@ export default function Footer() {
   const handleShare = async (e: React.MouseEvent) => {
     e.preventDefault();
     const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
-    
+
     if (!currentUrl) return;
 
     if (navigator.share) {
@@ -35,7 +35,7 @@ export default function Footer() {
     <footer className="bg-surface-container dark:bg-surface-container-highest py-section-gap border-t border-surface-variant">
       <div className="max-w-[1280px] mx-auto px-container-margin-mobile md:px-container-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter">
         <div className="md:col-span-5 mb-10 md:mb-0">
-          <Link href="/" className="inline-block font-display-lg text-headline-md font-extrabold text-primary dark:text-inverse-primary tracking-tighter mb-6">Bora Busan</Link>
+          <Link href="/" className="inline-block font-display-lg text-headline-md font-extrabold text-primary dark:text-inverse-primary tracking-tighter mb-6">BoraBusan</Link>
           <p className="font-body-md text-body-md text-on-surface-variant max-w-sm mb-8">
             {t('description')}
           </p>

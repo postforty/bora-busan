@@ -3,17 +3,16 @@ import "../globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ToastProvider from "@/components/providers/ToastProvider";
-import {NextIntlClientProvider} from 'next-intl';
-import {getMessages} from 'next-intl/server';
-import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/routing';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { notFound } from 'next/navigation';
+import { routing } from '@/i18n/routing';
 
 export const metadata: Metadata = {
-  title: "Bora Busan | The Ultimate K-Pop Fan's Guide",
+  title: "BoraBusan | The Ultimate K-Pop Fan's Guide",
   description: "Your ultimate guide to the magic of Busan, curated for the global fandom community.",
 };
 
-export const runtime = 'edge';
 
 export default async function RootLayout({
   children,

@@ -2,7 +2,6 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 
-export const runtime = 'edge';
 
 interface PolicyPageTemplateProps {
   slug: string;

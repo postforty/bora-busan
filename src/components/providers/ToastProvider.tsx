@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 
 export default function ToastProvider() {
   return (
-    <Toaster 
+    <Toaster
       position="bottom-center"
       toastOptions={{
         style: {
@@ -20,7 +20,7 @@ export default function ToastProvider() {
         },
         success: {
           iconTheme: {
-            primary: '#7c4dff', // Bora Busan Primary
+            primary: '#7c4dff', // BoraBusan Primary
             secondary: '#ffffff',
           },
         },

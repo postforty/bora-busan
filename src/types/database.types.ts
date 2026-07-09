@@ -19,6 +19,7 @@ export interface Database {
           slug: string
           created_at: string
           views: number
+          author_id: string | null
         }
         Insert: {
           id?: string
@@ -29,6 +30,7 @@ export interface Database {
           slug: string
           created_at?: string
           views?: number
+          author_id?: string | null
         }
         Update: {
           id?: string
@@ -39,6 +41,7 @@ export interface Database {
           slug?: string
           created_at?: string
           views?: number
+          author_id?: string | null
         }
       }
       post_translations: {

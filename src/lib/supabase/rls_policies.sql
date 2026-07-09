@@ -1,4 +1,4 @@
--- Supabase RLS (Row Level Security) Policies for Bora Busan
+-- Supabase RLS (Row Level Security) Policies for BoraBusan
 -- Run these commands in the Supabase SQL Editor.
 
 -- 1. Enable RLS on the posts table (assuming your table is named 'posts')

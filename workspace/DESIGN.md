@@ -1,5 +1,5 @@
 ---
-name: Bora Busan Design System
+name: BoraBusan Design System
 colors:
   surface: '#f9f9ff'
   surface-dim: '#cfdaf2'

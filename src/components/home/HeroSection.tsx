@@ -19,7 +19,11 @@ export default async function HeroSection() {
       <div className="relative z-10 max-w-[1280px] mx-auto px-container-margin-mobile md:px-container-margin-desktop text-center text-white">
         <h1 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-6 drop-shadow-lg">
           {t.rich('title', {
-            purple: (chunks) => <span className="text-primary [text-shadow:0_0_20px_rgba(223,183,255,0.9),0_0_45px_rgba(223,183,255,0.7),0_0_80px_rgba(223,183,255,0.5)]">{chunks}</span>
+            purple: (chunks) => (
+              <span className="text-white [text-shadow:0_0_15px_#dfb7ff,0_0_30px_#dfb7ff,0_0_50px_#9333EA,0_0_80px_#6B21A8]">
+                {chunks}
+              </span>
+            )
           })}
         </h1>
         <p className="font-body-lg text-body-lg max-w-2xl mx-auto mb-10 opacity-90">

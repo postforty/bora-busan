@@ -6,12 +6,12 @@ import { getTranslations, getLocale } from 'next-intl/server';
 export default async function PilgrimageSection() {
   const t = await getTranslations('Pilgrimage');
   const locale = await getLocale();
-  
+
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
   );
-  
+
   const { data: posts, error } = await supabase
     .from('posts')
     .select('*, post_translations!inner(*)')

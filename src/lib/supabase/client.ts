@@ -3,7 +3,7 @@ import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 // Create a singleton instance for the Supabase client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
 // We will check them inside createClient to prevent build-time crashes
 if (!supabaseUrl || !supabaseAnonKey) {
@@ -25,7 +25,7 @@ export const createClient = () => {
     }
     return browserClient;
   }
-  
+
   // Server environment: always create a new instance
   return createSupabaseClient(supabaseUrl, supabaseAnonKey);
 };

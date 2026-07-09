@@ -61,6 +61,54 @@ npm i --legacy-peer-deps
 npm i [설치할-패키지명] --legacy-peer-deps
 ```
 
+## 🗄️ 데이터베이스 설정 (Database Setup)
+
+본 프로젝트는 Supabase를 데이터베이스로 사용합니다. 프로젝트를 처음 세팅할 때 아래의 SQL을 Supabase 대시보드의 **SQL Editor**에서 실행하여 필요한 테이블과 보안 정책(RLS)을 생성해야 합니다.
+
+```sql
+-- 1. posts 테이블 생성 (게시물 기본 정보)
+CREATE TABLE IF NOT EXISTS posts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT NOT NULL UNIQUE,
+  category TEXT NOT NULL,
+  image_url TEXT,
+  likes INTEGER NOT NULL DEFAULT 0,
+  views INTEGER NOT NULL DEFAULT 0,
+  badge_type TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
+);
+
+-- 2. post_translations 테이블 생성 (게시물 언어별 내용)
+CREATE TABLE IF NOT EXISTS post_translations (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  post_id UUID NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+  locale TEXT NOT NULL,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  content TEXT NOT NULL,
+  metadata JSONB,
+  -- 같은 게시글에 같은 언어가 중복 생성되지 않도록 제한
+  UNIQUE(post_id, locale) 
+);
+
+-- 3. 두 테이블에 RLS(Row Level Security) 활성화
+ALTER TABLE posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE post_translations ENABLE ROW LEVEL SECURITY;
+
+-- 4. 웹사이트 방문자 누구나 게시물을 '조회(SELECT)' 할 수 있도록 권한 허용
+CREATE POLICY "누구나 게시글 조회 가능" 
+ON posts FOR SELECT 
+USING (true);
+
+CREATE POLICY "누구나 번역본 조회 가능" 
+ON post_translations FOR SELECT 
+USING (true);
+
+-- 5. Data API 접근 권한 부여 (Security 설정에서 Automatically expose new tables를 껐을 경우 필수)
+GRANT SELECT ON posts TO anon, authenticated;
+GRANT SELECT ON post_translations TO anon, authenticated;
+```
+
 ## 🔒 관리자 페이지 접속 방법 (Admin Access)
 
 본 프로젝트는 일반 사용자에게 불필요한 혼란을 주지 않기 위해, **메인 화면이나 네비게이션 UI에 관리자용 로그인 및 대시보드로 이동하는 버튼을 의도적으로 노출하지 않습니다.** 

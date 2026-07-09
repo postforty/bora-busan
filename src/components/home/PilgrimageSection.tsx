@@ -29,7 +29,8 @@ export default async function PilgrimageSection() {
     return {
       ...p,
       title: trans.title,
-      description: trans.description
+      description: trans.description,
+      metadata: trans.metadata
     };
   });
 
@@ -103,10 +104,17 @@ export default async function PilgrimageSection() {
                 <div className="max-w-lg">
                   <h3 className="font-headline-md text-headline-md text-white mb-4">{post3.title}</h3>
                   <p className="font-body-lg text-body-lg text-white/90 mb-6 line-clamp-2">{post3.description}</p>
-                  <button className="flex items-center space-x-3 bg-white text-primary px-6 py-2 rounded-full font-label-bold text-label-bold group-hover:bg-primary-fixed transition-colors">
-                    <span>{t('discover')}</span>
-                    <span className="material-symbols-outlined">play_circle</span>
-                  </button>
+                  {post3.metadata?.type === 'video' ? (
+                    <button className="flex items-center space-x-3 bg-white text-primary px-6 py-2 rounded-full font-label-bold text-label-bold group-hover:bg-primary-fixed transition-colors">
+                      <span>{t('discover')}</span>
+                      <span className="material-symbols-outlined">play_circle</span>
+                    </button>
+                  ) : (
+                    <button className="flex items-center space-x-3 bg-white text-primary px-6 py-2 rounded-full font-label-bold text-label-bold group-hover:bg-primary-fixed transition-colors">
+                      <span>{t('view_details')}</span>
+                      <span className="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </Link>

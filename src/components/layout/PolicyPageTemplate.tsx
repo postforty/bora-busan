@@ -9,13 +9,15 @@ interface PolicyPageTemplateProps {
   locale: string;
   fallbackTitle: string;
   fallbackDescription: string;
+  lastUpdatedLabel: string;
 }
 
 export default async function PolicyPageTemplate({
   slug,
   locale,
   fallbackTitle,
-  fallbackDescription
+  fallbackDescription,
+  lastUpdatedLabel
 }: PolicyPageTemplateProps) {
   const supabase = createClient();
   
@@ -35,6 +37,7 @@ export default async function PolicyPageTemplate({
       <div className="pt-32 pb-section-gap max-w-[800px] mx-auto px-container-margin-mobile md:px-container-margin-desktop min-h-[60vh]">
         <h1 className="font-display-md text-display-md text-on-surface mb-8">{fallbackTitle}</h1>
         <div className="text-on-surface-variant font-body-lg space-y-4">
+          <p>{lastUpdatedLabel} {new Date().toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })}</p>
           <p>{fallbackDescription}</p>
           <p className="text-sm opacity-50 mt-8 p-4 bg-surface-variant rounded-lg">
             이 페이지의 내용은 데이터베이스에서 불러오게 됩니다. 
@@ -57,7 +60,7 @@ export default async function PolicyPageTemplate({
           {title}
         </h1>
         <div className="text-on-surface-variant font-body-md">
-          <span>최종 수정일 (Last updated): {updatedAt}</span>
+          <span>{lastUpdatedLabel} {updatedAt}</span>
         </div>
       </header>
 

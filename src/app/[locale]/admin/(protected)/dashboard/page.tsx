@@ -13,7 +13,15 @@ interface Post {
   category: string;
   created_at: string;
   badge_type: 'primary' | 'secondary' | 'tertiary';
+  locales: string[];
 }
+
+const ALL_LOCALES = [
+  { code: 'ko', label: 'KO' },
+  { code: 'en', label: 'EN' },
+  { code: 'ja', label: 'JA' },
+  { code: 'zh', label: 'ZH' }
+];
 
 export default function AdminDashboardPage() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -38,7 +46,8 @@ export default function AdminDashboardPage() {
           category: post.category,
           created_at: post.created_at,
           badge_type: post.badge_type,
-          title: koTitle || fallbackTitle || '(제목 없음)'
+          title: koTitle || fallbackTitle || '(제목 없음)',
+          locales: translations.map((pt: any) => pt.locale)
         };
       });
       setPosts(mappedPosts as Post[]);
@@ -79,6 +88,7 @@ export default function AdminDashboardPage() {
                 <tr className="bg-surface-variant text-on-surface-variant text-label-md uppercase tracking-wider">
                   <th className="px-6 py-4 border-b border-outline-variant/30 font-medium">제목</th>
                   <th className="px-6 py-4 border-b border-outline-variant/30 font-medium">카테고리</th>
+                  <th className="px-6 py-4 border-b border-outline-variant/30 font-medium">지원 언어</th>
                   <th className="px-6 py-4 border-b border-outline-variant/30 font-medium">작성일</th>
                   <th className="px-6 py-4 border-b border-outline-variant/30 font-medium text-right">작업</th>
                 </tr>
@@ -101,6 +111,26 @@ export default function AdminDashboardPage() {
                       }`}>
                         {post.category}
                       </span>
+                    </td>
+                    <td className="px-6 py-4 text-body-md text-on-surface">
+                      <div className="flex items-center gap-1 flex-wrap max-w-[120px]">
+                        {ALL_LOCALES.map(loc => {
+                          const hasTranslation = post.locales.includes(loc.code);
+                          return (
+                            <span 
+                              key={loc.code} 
+                              className={`px-1.5 py-0.5 rounded text-[10px] font-label-bold uppercase tracking-wider ${
+                                hasTranslation 
+                                  ? 'bg-primary/10 text-primary border border-primary/20' 
+                                  : 'bg-surface-variant text-on-surface-variant/40 border border-outline-variant/20'
+                              }`}
+                              title={hasTranslation ? `${loc.label} 번역됨` : `${loc.label} 번역 없음`}
+                            >
+                              {loc.label}
+                            </span>
+                          );
+                        })}
+                      </div>
                     </td>
                     <td className="px-6 py-4 text-body-md text-on-surface-variant">
                       {new Date(post.created_at).toLocaleDateString()}

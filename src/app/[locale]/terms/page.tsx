@@ -10,7 +10,8 @@ export default async function TermsOfServicePage() {
       slug="terms" 
       locale={locale} 
       fallbackTitle={t('title')} 
-      fallbackDescription={t('description')} 
+      fallbackDescription={t('description')}
+      lastUpdatedLabel={t('last_updated')}
     />
   );
 }

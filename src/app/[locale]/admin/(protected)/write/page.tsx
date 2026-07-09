@@ -16,9 +16,8 @@ const AVAILABLE_LANGUAGES = [
 export default function AdminWritePage() {
   const router = useRouter();
   const supabase = createClient();
-  
   const [loading, setLoading] = useState(false);
-  const [postType, setPostType] = useState<'standard' | 'place' | 'course'>('standard');
+  const [postType, setPostType] = useState<'standard' | 'place' | 'course' | 'video'>('standard');
   const [selectedLangs, setSelectedLangs] = useState<string[]>(['ko']);
   const [isTranslating, setIsTranslating] = useState<Record<string, boolean>>({});
 
@@ -47,7 +46,7 @@ export default function AdminWritePage() {
     }
   };
 
-  const handleMetadataTemplateChange = (type: 'standard' | 'place' | 'course') => {
+  const handleMetadataTemplateChange = (type: 'standard' | 'place' | 'course' | 'video') => {
     setPostType(type);
     let template = '{}';
     if (type === 'place') {
@@ -68,6 +67,12 @@ export default function AdminWritePage() {
         steps: [
           { time: "09:30-11:30", place_name: "방문지 이름", activities: ["인증샷", "굿즈샵"] }
         ]
+      }, null, 2);
+    } else if (type === 'video') {
+      template = JSON.stringify({
+        type: "video",
+        video_url: "https://youtube.com/watch?v=...",
+        duration: "10:30"
       }, null, 2);
     }
     
@@ -300,13 +305,14 @@ export default function AdminWritePage() {
               </label>
               <select 
                 value={postType}
-                onChange={(e) => handleMetadataTemplateChange(e.target.value as 'standard' | 'place' | 'course')}
+                onChange={(e) => handleMetadataTemplateChange(e.target.value as 'standard' | 'place' | 'course' | 'video')}
                 disabled={category === 'Policy'}
                 className={`px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none ${category === 'Policy' ? 'bg-surface-variant opacity-60 cursor-not-allowed' : ''}`}
               >
                 <option value="standard">Standard (기본 블로그)</option>
                 <option value="place">Place (장소 스팟형)</option>
                 <option value="course">Course (코스 일정형)</option>
+                <option value="video">Video (영상 메인형)</option>
               </select>
             </div>
 

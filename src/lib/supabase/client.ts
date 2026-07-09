@@ -9,6 +9,18 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables');
 }
 
+// Global variable to hold the singleton instance in the browser
+let browserClient: ReturnType<typeof createSupabaseClient> | null = null;
+
 export const createClient = () => {
+  if (typeof window !== 'undefined') {
+    // Browser environment: use singleton pattern
+    if (!browserClient) {
+      browserClient = createSupabaseClient(supabaseUrl, supabaseAnonKey);
+    }
+    return browserClient;
+  }
+  
+  // Server environment: always create a new instance
   return createSupabaseClient(supabaseUrl, supabaseAnonKey);
 };

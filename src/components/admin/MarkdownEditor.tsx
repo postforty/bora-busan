@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AdSlot from '@/components/monetization/AdSlot';
 import AffiliateButton from '@/components/monetization/AffiliateButton';
 
@@ -29,6 +29,11 @@ interface MarkdownEditorProps {
 
 export default function MarkdownEditor({ initialValue = '', onChange }: MarkdownEditorProps) {
   const [value, setValue] = useState(initialValue);
+
+  // Sync initialValue when it changes from outside
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
 
   const handleChange = (val: string | undefined) => {
     setValue(val || '');

@@ -87,27 +87,31 @@ export default function AdminWritePage() {
     const toastId = toast.loading(`${targetLang.toUpperCase()} 언어로 AI 번역 중...`);
 
     try {
-      const translate = async (text: string) => {
+      const translate = async (text: string, isJson: boolean = false) => {
         if (!text) return '';
         const res = await fetch('/api/translate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text, targetLocale: targetLang })
+          body: JSON.stringify({ text, targetLocale: targetLang, isJson })
         });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
         return data.translatedText;
       };
 
-      const [tTitle, tDesc, tContent] = await Promise.all([
+      const [tTitle, tDesc, tContent, tMeta] = await Promise.all([
         translate(title.ko),
         translate(description.ko),
-        translate(content.ko)
+        translate(content.ko),
+        postType !== 'standard' ? translate(metadataJson.ko, true) : Promise.resolve('{}')
       ]);
 
       setTitle(prev => ({ ...prev, [targetLang]: tTitle }));
       setDescription(prev => ({ ...prev, [targetLang]: tDesc }));
       setContent(prev => ({ ...prev, [targetLang]: tContent }));
+      if (postType !== 'standard') {
+        setMetadataJson(prev => ({ ...prev, [targetLang]: tMeta }));
+      }
       
       toast.success(`${targetLang.toUpperCase()} 자동 번역 완료!`, { id: toastId });
     } catch (err: any) {
@@ -365,13 +369,22 @@ export default function AdminWritePage() {
           ))}
         </div>
 
-        <button 
-          disabled={loading} 
-          type="submit" 
-          className="mt-4 bg-primary text-on-primary font-label-bold py-4 px-6 rounded-xl hover:bg-primary-container hover:text-on-primary-container disabled:opacity-50 transition-colors shadow-md sticky bottom-6 z-10"
-        >
-          {loading ? '등록 중...' : '다국어 게시글 등록'}
-        </button>
+        <div className="mt-4 sticky bottom-6 z-10 flex justify-end gap-4">
+          <button 
+            type="button"
+            onClick={() => router.push('/admin/dashboard')}
+            className="bg-surface-variant text-on-surface-variant font-label-bold py-4 px-8 rounded-xl hover:bg-outline-variant transition-colors shadow-md"
+          >
+            취소
+          </button>
+          <button 
+            disabled={loading} 
+            type="submit" 
+            className="bg-primary text-on-primary font-label-bold py-4 px-12 rounded-xl hover:bg-primary-container hover:text-on-primary-container disabled:opacity-50 transition-colors shadow-md"
+          >
+            {loading ? '등록 중...' : '다국어 게시글 등록'}
+          </button>
+        </div>
       </form>
     </div>
   );

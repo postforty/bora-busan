@@ -3,7 +3,7 @@ import { GoogleGenAI } from '@google/genai';
 
 export async function POST(request: Request) {
   try {
-    const { text, targetLocale } = await request.json();
+    const { text, targetLocale, isJson } = await request.json();
 
     if (!text || !targetLocale) {
       return NextResponse.json({ error: 'Missing text or targetLocale' }, { status: 400 });
@@ -25,13 +25,23 @@ export async function POST(request: Request) {
     
     const targetLanguage = localeMap[targetLocale] || targetLocale;
 
-    const prompt = `Translate the following Korean text into ${targetLanguage}. 
+    let prompt = '';
+    if (isJson) {
+      prompt = `Translate the string values in the following JSON into ${targetLanguage}. 
+Keep all JSON keys exactly as they are. Keep the original structure intact.
+Ensure the output is valid JSON without any markdown code blocks, quotes, or additional text around it. Just return the raw JSON string.
+
+JSON to translate:
+${text}`;
+    } else {
+      prompt = `Translate the following Korean text into ${targetLanguage}. 
 Keep the original Markdown formatting exactly as it is.
 Use natural and engaging tone, suitable for global K-Pop fans and tourists visiting Busan.
 Do not add any additional explanations, quotes, or text around the output, just return the translated text directly.
 
 Text to translate:
 ${text}`;
+    }
 
     const interaction = await ai.interactions.create({
       model: "gemini-3.5-flash",

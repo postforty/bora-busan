@@ -12,7 +12,6 @@ import CourseTimeline, { CourseMetadata } from '@/components/blog/CourseTimeline
 import ViewTracker from '@/components/blog/ViewTracker';
 import LikeButton from '@/components/blog/LikeButton';
 
-export const runtime = 'edge';
 
 // Custom components to inject into MDX
 const components = {

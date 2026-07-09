@@ -22,6 +22,8 @@ export default function AdminWritePage() {
   const [selectedLangs, setSelectedLangs] = useState<string[]>(['ko']);
   const [isTranslating, setIsTranslating] = useState<Record<string, boolean>>({});
 
+  const [aiModel, setAiModel] = useState('gemini-3.1-flash-lite');
+
   // Common fields (Posts table)
   const [slug, setSlug] = useState('');
   const [category, setCategory] = useState('K-Pop Pilgrimage');
@@ -92,7 +94,7 @@ export default function AdminWritePage() {
         const res = await fetch('/api/translate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text, targetLocale: targetLang, isJson })
+          body: JSON.stringify({ text, targetLocale: targetLang, isJson, model: aiModel })
         });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
@@ -222,21 +224,35 @@ export default function AdminWritePage() {
         <div className="bg-white shadow-sm rounded-2xl p-8 border border-outline-variant/30 flex flex-col gap-6">
           <h1 className="text-headline-md text-on-surface mb-2">새 다국어 글 작성</h1>
           
-          <div className="flex flex-col gap-2">
-            <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">작성 언어 선택</label>
-            <div className="flex gap-4 mb-4">
-              {AVAILABLE_LANGUAGES.map(lang => (
-                <label key={lang.code} className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={selectedLangs.includes(lang.code)}
-                    onChange={() => handleLangToggle(lang.code)}
-                    className="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary"
-                    disabled={lang.code === 'ko'}
-                  />
-                  <span className="font-label-bold">{lang.name}</span>
-                </label>
-              ))}
+          <div className="flex flex-col md:flex-row gap-6 md:items-start mb-4">
+            <div className="flex flex-col gap-2 flex-1">
+              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">작성 언어 선택</label>
+              <div className="flex gap-4">
+                {AVAILABLE_LANGUAGES.map(lang => (
+                  <label key={lang.code} className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectedLangs.includes(lang.code)}
+                      onChange={() => handleLangToggle(lang.code)}
+                      className="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary"
+                      disabled={lang.code === 'ko'}
+                    />
+                    <span className="font-label-bold">{lang.name}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2 w-full md:w-64">
+              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">AI 번역 모델</label>
+              <select
+                value={aiModel}
+                onChange={(e) => setAiModel(e.target.value)}
+                className="px-4 py-2 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+              >
+                <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash-Lite</option>
+                <option value="gemini-3.5-flash">Gemini 3.5 Flash</option>
+              </select>
             </div>
           </div>
 

@@ -17,12 +17,13 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
   const { slug: originalSlug } = use(params);
   const router = useRouter();
   const supabase = createClient();
-  
+
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [postType, setPostType] = useState<'standard' | 'place' | 'course'>('standard');
   const [selectedLangs, setSelectedLangs] = useState<string[]>(['ko']);
   const [isTranslating, setIsTranslating] = useState<Record<string, boolean>>({});
+  const [aiModel, setAiModel] = useState('gemini-3.1-flash-lite');
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [initialData, setInitialData] = useState<any>(null);
@@ -31,7 +32,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
   const [slug, setSlug] = useState('');
   const [category, setCategory] = useState('K-Pop Pilgrimage');
   const [badgeType, setBadgeType] = useState('primary');
-  
+
   // Multilingual fields
   const [title, setTitle] = useState<Record<string, string>>({ ko: '', en: '', ja: '', zh: '' });
   const [description, setDescription] = useState<Record<string, string>>({ ko: '', en: '', ja: '', zh: '' });
@@ -45,18 +46,18 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
         .select('*, post_translations(*)')
         .eq('slug', originalSlug)
         .single();
-        
+
       if (error || !data) {
         toast.error('게시글을 찾을 수 없습니다');
         router.push('/admin/dashboard');
         return;
       }
-      
+
       setInitialData(data);
       setSlug(data.slug);
       setCategory(data.category || 'K-Pop Pilgrimage');
       setBadgeType(data.badge_type || 'primary');
-      
+
       if (data.post_translations && data.post_translations.length > 0) {
         const langs: string[] = [];
         const newTitle = { ...title };
@@ -70,15 +71,15 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
           newDesc[pt.locale] = pt.description || '';
           newContent[pt.locale] = pt.content || '';
           newMeta[pt.locale] = pt.metadata ? JSON.stringify(pt.metadata, null, 2) : '{}';
-          
+
           if (pt.locale === 'ko' && pt.metadata?.type) {
-             setPostType(pt.metadata.type);
+            setPostType(pt.metadata.type);
           }
         });
-        
+
         // Ensure 'ko' is always selected
         if (!langs.includes('ko')) langs.push('ko');
-        
+
         setSelectedLangs(langs);
         setTitle(newTitle);
         setDescription(newDesc);
@@ -88,7 +89,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
 
       setInitialLoading(false);
     }
-    
+
     fetchPost();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [originalSlug]);
@@ -128,7 +129,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
         ]
       }, null, 2);
     }
-    
+
     const newMetadata = { ...metadataJson };
     AVAILABLE_LANGUAGES.forEach(lang => {
       newMetadata[lang.code] = template;
@@ -151,7 +152,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
         const res = await fetch('/api/translate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text, targetLocale: targetLang, isJson })
+          body: JSON.stringify({ text, targetLocale: targetLang, isJson, model: aiModel })
         });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
@@ -172,7 +173,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
         setMetadataJson(prev => ({ ...prev, [targetLang]: tMeta }));
       }
 
-      
+
       toast.success(`${targetLang.toUpperCase()} 자동 번역 완료!`, { id: toastId });
     } catch (err: any) {
       toast.error(`번역 실패: ${err.message}`, { id: toastId });
@@ -184,7 +185,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-    
+
     const formData = new FormData(e.currentTarget);
 
     try {
@@ -258,7 +259,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
       if (translationError) {
         throw new Error(`번역본 수정 실패: ${translationError.message}`);
       }
-      
+
       // Also, we might want to delete translations that were unchecked.
       const unselectedLangs = AVAILABLE_LANGUAGES.map(l => l.code).filter(c => !selectedLangs.includes(c));
       if (unselectedLangs.length > 0) {
@@ -285,33 +286,47 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
   return (
     <div className="container mx-auto px-4 pt-32 pb-12 w-full max-w-7xl">
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-        
+
         {/* Common Info Section */}
         <div className="bg-white shadow-sm rounded-2xl p-8 border border-outline-variant/30 flex flex-col gap-6">
           <h1 className="text-headline-md text-on-surface mb-2">다국어 게시글 수정</h1>
-          
-          <div className="flex flex-col gap-2">
-            <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">작성 언어 선택</label>
-            <div className="flex gap-4 mb-4">
-              {AVAILABLE_LANGUAGES.map(lang => (
-                <label key={lang.code} className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={selectedLangs.includes(lang.code)}
-                    onChange={() => handleLangToggle(lang.code)}
-                    className="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary"
-                    disabled={lang.code === 'ko'}
-                  />
-                  <span className="font-label-bold">{lang.name}</span>
-                </label>
-              ))}
+
+          <div className="flex flex-col md:flex-row gap-6 md:items-start mb-4">
+            <div className="flex flex-col gap-2 flex-1">
+              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">작성 언어 선택</label>
+              <div className="flex gap-4">
+                {AVAILABLE_LANGUAGES.map(lang => (
+                  <label key={lang.code} className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectedLangs.includes(lang.code)}
+                      onChange={() => handleLangToggle(lang.code)}
+                      className="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary"
+                      disabled={lang.code === 'ko'}
+                    />
+                    <span className="font-label-bold">{lang.name}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2 w-full md:w-64">
+              <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">AI 번역 모델</label>
+              <select
+                value={aiModel}
+                onChange={(e) => setAiModel(e.target.value)}
+                className="px-4 py-2 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+              >
+                <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash-Lite</option>
+                <option value="gemini-3.5-flash">Gemini 3.5 Flash</option>
+              </select>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">게시글 포맷 타입</label>
-              <select 
+              <select
                 value={postType}
                 onChange={(e) => handleMetadataTemplateChange(e.target.value as 'standard' | 'place' | 'course')}
                 className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
@@ -321,21 +336,21 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
                 <option value="course">Course (코스 일정형)</option>
               </select>
             </div>
-            
+
             <div className="flex flex-col gap-2">
               <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">공통 슬러그 (URL)</label>
-              <input 
-                name="slug" 
+              <input
+                name="slug"
                 value={slug}
                 onChange={e => setSlug(e.target.value)}
-                required 
-                className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none" 
+                required
+                className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
               />
             </div>
 
             <div className="flex flex-col gap-2">
               <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">카테고리</label>
-              <select 
+              <select
                 value={category}
                 onChange={e => setCategory(e.target.value)}
                 className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
@@ -351,7 +366,7 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
 
             <div className="flex flex-col gap-2">
               <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">배지 타입</label>
-              <select 
+              <select
                 value={badgeType}
                 onChange={e => setBadgeType(e.target.value)}
                 className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
@@ -401,23 +416,23 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
 
               <div className="flex flex-col gap-2">
                 <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">제목</label>
-                <input 
+                <input
                   value={title[langCode]}
                   onChange={e => setTitle(prev => ({ ...prev, [langCode]: e.target.value }))}
-                  required 
-                  className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none" 
-                  placeholder="제목을 입력하세요" 
+                  required
+                  className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                  placeholder="제목을 입력하세요"
                 />
               </div>
 
               <div className="flex flex-col gap-2">
                 <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">요약 설명</label>
-                <textarea 
+                <textarea
                   value={description[langCode]}
                   onChange={e => setDescription(prev => ({ ...prev, [langCode]: e.target.value }))}
-                  required 
-                  className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none" 
-                  rows={3} 
+                  required
+                  className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                  rows={3}
                   placeholder="게시글의 짧은 요약"
                 />
               </div>
@@ -425,20 +440,20 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
               {postType !== 'standard' && (
                 <div className="flex flex-col gap-2">
                   <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">Metadata (JSON)</label>
-                  <textarea 
+                  <textarea
                     value={metadataJson[langCode]}
                     onChange={(e) => setMetadataJson(prev => ({ ...prev, [langCode]: e.target.value }))}
-                    className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none font-mono text-sm" 
-                    rows={8} 
+                    className="px-4 py-3 border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none font-mono text-sm"
+                    rows={8}
                   />
                 </div>
               )}
 
               <div className="flex flex-col gap-2">
                 <label className="text-label-bold text-on-surface-variant uppercase tracking-widest">본문 (마크다운)</label>
-                <MarkdownEditor 
-                  initialValue={content[langCode]} 
-                  onChange={(val) => setContent(prev => ({ ...prev, [langCode]: val || '' }))} 
+                <MarkdownEditor
+                  initialValue={content[langCode]}
+                  onChange={(val) => setContent(prev => ({ ...prev, [langCode]: val || '' }))}
                 />
               </div>
             </div>
@@ -446,16 +461,16 @@ export default function AdminEditPage({ params }: { params: Promise<{ slug: stri
         </div>
 
         <div className="mt-4 sticky bottom-6 z-10 flex justify-end gap-4">
-          <button 
+          <button
             type="button"
             onClick={() => router.push('/admin/dashboard')}
             className="bg-surface-variant text-on-surface-variant font-label-bold py-4 px-8 rounded-xl hover:bg-outline-variant transition-colors shadow-md"
           >
             취소
           </button>
-          <button 
-            disabled={loading} 
-            type="submit" 
+          <button
+            disabled={loading}
+            type="submit"
             className="bg-primary text-on-primary font-label-bold py-4 px-12 rounded-xl hover:bg-primary-container hover:text-on-primary-container disabled:opacity-50 transition-colors shadow-md"
           >
             {loading ? '수정 중...' : '다국어 게시글 수정'}

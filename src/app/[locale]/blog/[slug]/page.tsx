@@ -86,10 +86,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       </header>
 
       <div className="max-w-[800px] mx-auto px-container-margin-mobile md:px-container-margin-desktop mb-8">
-        {metadata && typeof metadata === 'object' && !Array.isArray(metadata) && (metadata as Record<string, unknown>).type === 'place' && (
+        {metadata && typeof metadata === 'object' && !Array.isArray(metadata) && String((metadata as Record<string, unknown>).type).toLowerCase() === 'place' && (
           <PlaceInfoCard metadata={metadata as unknown as PlaceMetadata} />
         )}
-        {metadata && typeof metadata === 'object' && !Array.isArray(metadata) && (metadata as Record<string, unknown>).type === 'course' && (
+        {metadata && typeof metadata === 'object' && !Array.isArray(metadata) && String((metadata as Record<string, unknown>).type).toLowerCase() === 'course' && (
           <CourseTimeline metadata={metadata as unknown as CourseMetadata} />
         )}
       </div>

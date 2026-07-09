@@ -12,45 +12,62 @@ export interface Database {
       posts: {
         Row: {
           id: string
-          title: string
-          description: string
-          content: string
           category: string
           image_url: string | null
           likes: number
           badge_type: string | null
           slug: string
           created_at: string
-          metadata: Json | null
           views: number
         }
         Insert: {
           id?: string
-          title: string
-          description: string
-          content: string
           category: string
           image_url?: string | null
           likes?: number
           badge_type?: string | null
           slug: string
           created_at?: string
-          metadata?: Json | null
           views?: number
         }
         Update: {
           id?: string
-          title?: string
-          description?: string
-          content?: string
           category?: string
           image_url?: string | null
           likes?: number
           badge_type?: string | null
           slug?: string
           created_at?: string
-          metadata?: Json | null
           views?: number
+        }
+      }
+      post_translations: {
+        Row: {
+          id: string
+          post_id: string
+          locale: string
+          title: string
+          description: string
+          content: string
+          metadata: Json | null
+        }
+        Insert: {
+          id?: string
+          post_id: string
+          locale: string
+          title: string
+          description: string
+          content: string
+          metadata?: Json | null
+        }
+        Update: {
+          id?: string
+          post_id?: string
+          locale?: string
+          title?: string
+          description?: string
+          content?: string
+          metadata?: Json | null
         }
       }
     }

@@ -24,11 +24,24 @@ export default function AdminDashboardPage() {
     setLoading(true);
     const { data, error } = await supabase
       .from('posts')
-      .select('id, title, slug, category, created_at, badge_type')
+      .select('id, slug, category, created_at, badge_type, post_translations(title, locale)')
       .order('created_at', { ascending: false });
     
     if (!error && data) {
-      setPosts(data);
+      const mappedPosts = data.map((post: any) => {
+        const translations = post.post_translations || [];
+        const koTitle = translations.find((pt: any) => pt.locale === 'ko')?.title;
+        const fallbackTitle = translations[0]?.title;
+        return {
+          id: post.id,
+          slug: post.slug,
+          category: post.category,
+          created_at: post.created_at,
+          badge_type: post.badge_type,
+          title: koTitle || fallbackTitle || '(제목 없음)'
+        };
+      });
+      setPosts(mappedPosts as Post[]);
     }
     setLoading(false);
   };

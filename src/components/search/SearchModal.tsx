@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useDebounce } from "@/lib/hooks/useDebounce";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const router = useRouter();
+  const locale = useLocale();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const supabase = useMemo(() => createClient(), []);
@@ -91,16 +93,25 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       setIsLoading(true);
       try {
         const { data, error } = await supabase
-          .from("posts")
-          .select("id, title, description, category, slug, image_url")
-          .or(`title.ilike.%${debouncedSearchTerm}%,description.ilike.%${debouncedSearchTerm}%`)
-          .order("created_at", { ascending: false })
+          .from("post_translations")
+          .select("title, description, posts!inner(id, category, slug, image_url)")
+          .eq("locale", locale)
+          .or(`title.ilike.%${debouncedSearchTerm}%,description.ilike.%${debouncedSearchTerm}%,content.ilike.%${debouncedSearchTerm}%`)
           .limit(10);
 
         if (error) {
           console.error("Search error:", error);
         } else {
-          setResults(data || []);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const mapped = (data || []).map((row: any) => ({
+            id: row.posts.id,
+            title: row.title,
+            description: row.description,
+            category: row.posts.category,
+            slug: row.posts.slug,
+            image_url: row.posts.image_url
+          }));
+          setResults(mapped);
         }
       } catch (err) {
         console.error("Unexpected error during search:", err);
@@ -110,7 +121,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     };
 
     searchPosts();
-  }, [debouncedSearchTerm, supabase]);
+  }, [debouncedSearchTerm, supabase, locale]);
 
   if (!isOpen) return null;
 

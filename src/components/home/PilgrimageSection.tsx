@@ -1,17 +1,21 @@
 import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { createClient } from '@supabase/supabase-js';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 
 export default async function PilgrimageSection() {
   const t = await getTranslations('Pilgrimage');
+  const locale = await getLocale();
+  
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
+  
   const { data: posts, error } = await supabase
     .from('posts')
-    .select('*')
+    .select('*, post_translations!inner(*)')
+    .eq('post_translations.locale', locale)
     .order('created_at', { ascending: false })
     .limit(3);
 
@@ -19,7 +23,16 @@ export default async function PilgrimageSection() {
     return null; // For simplicity, require at least 3 posts for the masonry layout
   }
 
-  const [post1, post2, post3] = posts;
+  const mappedPosts = posts.map(p => {
+    const trans = p.post_translations[0];
+    return {
+      ...p,
+      title: trans.title,
+      description: trans.description
+    };
+  });
+
+  const [post1, post2, post3] = mappedPosts;
 
   return (
     <section className="py-section-gap bg-surface scroll-mt-16" id="pilgrimage">

@@ -22,21 +22,28 @@ const components = {
   affiliatebutton: AffiliateButton,
 };
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string, locale: string }> }) {
   const resolvedParams = await params;
-  const { slug } = resolvedParams;
+  const { slug, locale } = resolvedParams;
   const decodedSlug = decodeURIComponent(slug);
   
   const supabase = createClient();
   const { data: post, error } = await supabase
     .from('posts')
-    .select('*')
+    .select('*, post_translations!inner(*)')
     .eq('slug', decodedSlug)
+    .eq('post_translations.locale', locale)
     .single();
 
-  if (error || !post) {
+  if (error || !post || !post.post_translations || post.post_translations.length === 0) {
     notFound();
   }
+
+  const translation = post.post_translations[0];
+  const title = translation.title;
+  const description = translation.description;
+  const content = translation.content;
+  const metadata = translation.metadata;
 
   return (
     <article className="pt-32 pb-section-gap">
@@ -52,7 +59,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             {post.category}
           </span>
           <time className="text-on-surface-variant font-body-sm flex-1">
-            {new Date(post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            {new Date(post.created_at).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })}
           </time>
           <div className="flex items-center text-on-surface-variant gap-4">
             <div className="flex items-center gap-1" title="Views">
@@ -66,30 +73,30 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
         </div>
         <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg mb-6 leading-tight">
-          {post.title}
+          {title}
         </h1>
         <p className="text-xl text-on-surface-variant mb-8 leading-relaxed">
-          {post.description}
+          {description}
         </p>
         {post.image_url && (
           <div className="relative w-full aspect-[21/9] rounded-2xl overflow-hidden shadow-lg mb-12">
-            <Image src={post.image_url} alt={post.title} fill sizes="100vw" className="object-cover" priority />
+            <Image src={post.image_url} alt={title} fill sizes="100vw" className="object-cover" priority />
           </div>
         )}
       </header>
 
       <div className="max-w-[800px] mx-auto px-container-margin-mobile md:px-container-margin-desktop mb-8">
-        {post.metadata && typeof post.metadata === 'object' && !Array.isArray(post.metadata) && (post.metadata as Record<string, unknown>).type === 'place' && (
-          <PlaceInfoCard metadata={post.metadata as unknown as PlaceMetadata} />
+        {metadata && typeof metadata === 'object' && !Array.isArray(metadata) && (metadata as Record<string, unknown>).type === 'place' && (
+          <PlaceInfoCard metadata={metadata as unknown as PlaceMetadata} />
         )}
-        {post.metadata && typeof post.metadata === 'object' && !Array.isArray(post.metadata) && (post.metadata as Record<string, unknown>).type === 'course' && (
-          <CourseTimeline metadata={post.metadata as unknown as CourseMetadata} />
+        {metadata && typeof metadata === 'object' && !Array.isArray(metadata) && (metadata as Record<string, unknown>).type === 'course' && (
+          <CourseTimeline metadata={metadata as unknown as CourseMetadata} />
         )}
       </div>
 
       <div className="max-w-[800px] mx-auto px-container-margin-mobile md:px-container-margin-desktop">
         <div className="prose prose-lg prose-slate dark:prose-invert prose-a:text-primary hover:prose-a:text-primary/80 prose-headings:font-display-md max-w-none">
-          <MDXRemote source={post.content} components={components} />
+          <MDXRemote source={content} components={components} />
         </div>
       </div>
       

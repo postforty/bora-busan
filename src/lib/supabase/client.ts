@@ -5,14 +5,19 @@ import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+// We will check them inside createClient to prevent build-time crashes
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
+  console.warn('Missing Supabase environment variables');
 }
 
 // Global variable to hold the singleton instance in the browser
 let browserClient: ReturnType<typeof createSupabaseClient> | null = null;
 
 export const createClient = () => {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error('Missing Supabase environment variables');
+  }
+
   if (typeof window !== 'undefined') {
     // Browser environment: use singleton pattern
     if (!browserClient) {

@@ -159,6 +159,7 @@ GRANT SELECT ON post_translations TO anon, authenticated;
     "lat": 35.158, 
     "lng": 129.172 
   }, // 지도에 표시될 정확한 위/경도 좌표
+  "idols": ["지민"], // (선택) 특정 아이돌 관련 장소인 경우 검색/필터링을 위해 배열로 추가
   "related_content": [
     { "type": "mv", "title": "Yet To Come 뮤직비디오 촬영지" } // 관련 콘텐츠
   ]

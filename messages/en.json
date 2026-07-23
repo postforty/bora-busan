@@ -58,5 +58,12 @@
   "BlogHero": {
     "title": "Stories & Guides",
     "description": "Explore the vibrant rhythm of Busan through the lens of K-Pop pilgrimage sites, coastal culture, and hidden local gems curated for the modern traveler."
+  },
+  "Map": {
+    "search_placeholder": "Search idol name (e.g., Jimin, Jungkook)",
+    "no_results": "No results found.",
+    "map_view": "Map View",
+    "list_view": "List View",
+    "view_post": "View Post"
   }
 }

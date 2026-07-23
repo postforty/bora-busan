@@ -60,7 +60,7 @@
     "description": "K-Pop 성지순례 명소, 해안 문화, 그리고 현대 여행자를 위해 큐레이션된 숨겨진 지역 명소들을 통해 부산의 생동감 넘치는 리듬을 탐험해 보세요."
   },
   "Map": {
-    "search_placeholder": "특정 아이돌 이름 검색 (예: 지민, 정국)",
+    "search_placeholder": "아티스트 또는 장소 검색",
     "no_results": "검색 결과가 없습니다.",
     "map_view": "지도 보기",
     "list_view": "목록 보기",

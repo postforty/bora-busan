@@ -105,7 +105,7 @@ export default function BlogListClient({ posts, locale, totalPages }: BlogListCl
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
         <button 
           onClick={() => setViewMode(viewMode === 'list' ? 'map' : 'list')}
-          className="flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-lg hover:bg-gray-800 transition-transform active:scale-95 font-label-bold"
+          className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full shadow-lg hover:bg-primary/90 transition-transform active:scale-95 font-label-bold"
         >
           {viewMode === 'list' ? (
             <>

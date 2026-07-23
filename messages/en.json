@@ -60,7 +60,7 @@
     "description": "Explore the vibrant rhythm of Busan through the lens of K-Pop pilgrimage sites, coastal culture, and hidden local gems curated for the modern traveler."
   },
   "Map": {
-    "search_placeholder": "Search idol name (e.g., Jimin, Jungkook)",
+    "search_placeholder": "Search artist or place",
     "no_results": "No results found.",
     "map_view": "Map View",
     "list_view": "List View",

@@ -60,7 +60,7 @@
     "description": "通过K-Pop圣地巡礼、沿海文化以及为现代旅行者精心策划的隐藏当地瑰宝，探索釜山充满活力的节奏。"
   },
   "Map": {
-    "search_placeholder": "搜索偶像名字 (例如: 智旻, 柾国)",
+    "search_placeholder": "搜索艺术家或地点",
     "no_results": "没有找到结果。",
     "map_view": "查看地图",
     "list_view": "查看列表",
